@@ -2,7 +2,7 @@ LIBRARY ieee;
 USE ieee.std_logic_1164.all; 
 USE ieee.std_logic_arith.all; 
 USE ieee.std_logic_unsigned.all; 
-ENTITY lights IS
+ENTITY exercise14_15 IS
    PORT (
       KEY : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
       CLOCK_50 : IN STD_LOGIC;
@@ -29,9 +29,9 @@ ENTITY lights IS
 		SRAM_OE_N	:	OUT	STD_LOGIC;
 		SRAM_WE_N	:	OUT	STD_LOGIC
 			);
-   END lights;
+   END exercise14_15;
 
-ARCHITECTURE Structure OF lights IS
+ARCHITECTURE Structure OF exercise14_15 IS
    COMPONENT nios_system PORT (
 				clk_clk              : in    std_logic ;                      						 -- clk
             reset_reset_n        : in    std_logic;                              				 -- reset_n
