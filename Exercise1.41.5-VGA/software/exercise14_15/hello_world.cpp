@@ -14,15 +14,7 @@ alt_up_char_buffer_dev* init_char_buffer();
 void ex4();
 void ex5();
 
-int main() {
 
-	printf("test \n");
-
-	//ex4();
-	ex5();
-
-	return 0;
-}
 
 void ex4() {
 	alt_up_pixel_buffer_dma_dev* pixel_buffer;
@@ -49,20 +41,6 @@ void ex4() {
 alt_up_pixel_buffer_dma_dev* init_pixel_buffer() {
 	alt_up_pixel_buffer_dma_dev* pixel_buffer;
 	pixel_buffer = alt_up_pixel_buffer_dma_open_dev("/dev/buffer_dma");
-	if (pixel_buffer == 0) {
-		printf(
-				"error initializing pixel buffer (check name in alt_up_pixel_buffer_dma_open_dev)\n");
-	}
-	alt_up_pixel_buffer_dma_change_back_buffer_address(pixel_buffer,
-			PIXEL_BUFFER_BASE);
-	// Swap background and foreground buffers
-	alt_up_pixel_buffer_dma_swap_buffers(pixel_buffer);
-
-	while (alt_up_pixel_buffer_dma_check_swap_buffers_status(pixel_buffer))
-		;
-	// Clear the screen
-	alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
-
 	return pixel_buffer;
 }
 
@@ -123,15 +101,14 @@ void draw_boxes(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
 }
 
 void ex5() {
-	alt_up_pixel_buffer_dma_dev* pixel_buffer;
-	pixel_buffer = alt_up_pixel_buffer_dma_open_dev("/dev/buffer_dma");
+
+	alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_buffer();
 	if (pixel_buffer == 0) {
 		printf(
 				"error initializing pixel buffer (check name in alt_up_pixel_buffer_dma_open_dev)\n");
 	}
-	alt_up_pixel_buffer_dma_change_back_buffer_address(pixel_buffer,
-			PIXEL_BUFFER_BASE);
-	alt_up_pixel_buffer_dma_swap_buffers(pixel_buffer);
+	alt_up_pixel_buffer_dma_change_back_buffer_address(pixel_buffer, PIXEL_BUFFER_BASE);
+	alt_up_pixel_buffer_dma_swap_buffers (pixel_buffer);
 	while (alt_up_pixel_buffer_dma_check_swap_buffers_status(pixel_buffer))
 		;
 	alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
@@ -161,6 +138,17 @@ void ex5() {
 		}
 	}
 
+}
+
+
+int main() {
+
+	printf("test \n");
+
+	//ex4();
+	ex5();
+
+	return 0;
 }
 
 //Error: character_lcd_0_avalon_lcd_slave_translator.avalon_anti_slave_0: Cannot connect character_lcd_0_avalon_lcd_slave_translator.reset because character_lcd_0.clock_reset_reset is not connected
