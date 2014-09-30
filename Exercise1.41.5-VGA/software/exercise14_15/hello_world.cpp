@@ -16,6 +16,8 @@ void clear_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
 alt_up_char_buffer_dev* init_char_buffer();
 void ex4();
 void ex5();
+void drawscreenhw();
+void drawboxyhw();
 
 void ex4() {
 	alt_up_pixel_buffer_dma_dev* pixel_buffer;
@@ -141,7 +143,78 @@ void ex5() {
 	}
 
 }
+void drawscreenhw() {
 
+	alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_buffer();
+	if (pixel_buffer == 0) {
+		printf(
+				"error initializing pixel buffer (check name in alt_up_pixel_buffer_dma_open_dev)\n");
+	}
+	alt_up_pixel_buffer_dma_change_back_buffer_address(pixel_buffer,
+			PIXEL_BUFFER_BASE);
+	alt_up_pixel_buffer_dma_swap_buffers(pixel_buffer);
+	while (alt_up_pixel_buffer_dma_check_swap_buffers_status(pixel_buffer))
+		;
+	alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
+
+	int hw = 1;
+	while (1) {
+		if (hw) {
+
+			IOWR_32DIRECT(drawer_base, 0, 0);
+			// Set x1
+			IOWR_32DIRECT(drawer_base, 4, 0);
+			// Set y1
+			IOWR_32DIRECT(drawer_base, 8, 320);
+			// Set x2
+			IOWR_32DIRECT(drawer_base, 12, 240);
+			// Set y2
+			IOWR_32DIRECT(drawer_base, 16, 0xFFFF);
+			// Set colour
+			IOWR_32DIRECT(drawer_base, 20, 1);
+			// Start drawing
+			while (IORD_32DIRECT(drawer_base,20) == 0)
+				; // wait until done
+		} 
+	}
+
+}
+void drawboxyhw() {
+
+	alt_up_pixel_buffer_dma_dev *pixel_buffer = init_pixel_buffer();
+	if (pixel_buffer == 0) {
+		printf(
+				"error initializing pixel buffer (check name in alt_up_pixel_buffer_dma_open_dev)\n");
+	}
+	alt_up_pixel_buffer_dma_change_back_buffer_address(pixel_buffer,
+			PIXEL_BUFFER_BASE);
+	alt_up_pixel_buffer_dma_swap_buffers(pixel_buffer);
+	while (alt_up_pixel_buffer_dma_check_swap_buffers_status(pixel_buffer))
+		;
+	alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
+
+	int hw = 1;
+	while (1) {
+		if (hw) {
+
+			IOWR_32DIRECT(drawer_base, 0, 0);
+			// Set x1
+			IOWR_32DIRECT(drawer_base, 4, 0);
+			// Set y1
+			IOWR_32DIRECT(drawer_base, 8, 20);
+			// Set x2
+			IOWR_32DIRECT(drawer_base, 12, 20);
+			// Set y2
+			IOWR_32DIRECT(drawer_base, 16, 0x00FF);
+			// Set colour
+			IOWR_32DIRECT(drawer_base, 20, 1);
+			// Start drawing
+			while (IORD_32DIRECT(drawer_base,20) == 0)
+				; // wait until done
+		} 
+	}
+
+}
 int main() {
 	VGA_Screen vga_screen;
 	vga_screen.init();
@@ -161,6 +234,7 @@ void junkcode(){
 			;
 		alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
 }
+
 
 //Error: character_lcd_0_avalon_lcd_slave_translator.avalon_anti_slave_0: Cannot connect character_lcd_0_avalon_lcd_slave_translator.reset because character_lcd_0.clock_reset_reset is not connected
 
