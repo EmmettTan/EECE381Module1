@@ -7,6 +7,7 @@
 
 #ifndef VGA_SCREEN_H_
 #define VGA_SCREEN_H_
+#define drawer_base (volatile int *) 0x2100
 
 #include <stdio.h>
 #include <string.h>
@@ -24,9 +25,11 @@ public:
 	void draw_character(alt_up_char_buffer_dev* char_buffer);
 	void draw_diagonal_line(alt_up_pixel_buffer_dma_dev* pixel_buffer);
 	void draw_boxes(alt_up_pixel_buffer_dma_dev* pixel_buffer);
+	void paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
 	void clear_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
 
 	alt_up_pixel_buffer_dma_dev *pixel_buffer;
+	alt_up_char_buffer_dev *char_buffer;
 private:
 
 
