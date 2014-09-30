@@ -11,7 +11,9 @@
 #include <time.h>
 #include "Player.h"
 #include "MatrixMap.h"
+#include "unistd.h"
 
+void wait(int seconds);
 int main()
 {
    //init arrays and var
@@ -28,12 +30,13 @@ int main()
 	  Player p;
 	  MatrixMap m;
 	  m.print_matrix();
-	  /*while(1){
 
+	  while(1){
+		  p.move(p.get_direction(), m);
 		  printf("%c\n", p.get_direction());
-		  printf("x = %d   y = %d\n", p.get_x_cord(), p.get_y_cord());
-		  //sleep(1);
-	  }*/
+		  printf("x = %d   y = %d	cord=%c\n", p.get_x_cord(), p.get_y_cord(), m.get_cord(p.get_x_cord(), p.get_y_cord()));
+		  usleep(100000);
+	  }
   //for random num generation
 	 /* srand(time(NULL));
 
@@ -72,4 +75,10 @@ int main()
 	  printf("Time taken: %d clock ticks\n", end_time);
 	  printf("            %f seconds\n", sec );*/
 	  return 0;
+}
+void wait ( int seconds )
+{
+	clock_t endwait;
+	endwait = clock () + seconds * CLOCKS_PER_SEC ;
+	while (clock() < endwait) {}
 }

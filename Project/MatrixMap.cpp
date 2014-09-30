@@ -12,7 +12,7 @@ MatrixMap::MatrixMap() { //contructor dynamically initializes and generates map
 
 	//char m = new map[SIZE][SIZE];
 	gen_map();
-	printf("yo");
+
 }
 
 MatrixMap::MatrixMap(int rows, int cols) { //future contructor
@@ -23,15 +23,16 @@ MatrixMap::MatrixMap(int rows, int cols) { //future contructor
 }
 
 void MatrixMap::gen_map() { //generates map
-	int i, j, k;
+	//int i, j, k;
 
-	for (i = 0; i++; i < SIZE) {
-		for (j = 0; j++; j < SIZE) {
+	for (int i = 0; i < SIZE; i++) {
+
+		for (int j = 0; j < SIZE; j++) {
 			if (i % 2 == 0)
 				map[i][j] = 'x';
 			else {
 				if (j % 2 == 0) {
-					printf("here");
+
 					map[i][j] = 'x';
 				} else
 					map[i][j] = 'o';
@@ -46,12 +47,13 @@ char MatrixMap::get_cord(int x, int y) {
 }
 void MatrixMap::print_matrix() { //prints map to screen
 	int i, j, k;
-	printf("hello");
-	for (i = 0; i++; i < SIZE) {
-		for (j = 0; j++; j < SIZE) {
+
+	for (i = 0; i < SIZE; i++) {
+
+		for (j = 0; j < SIZE; j++) {
 			printf("%c", map[i][j]);
 		}
 		printf("\n");
 	}
-	printf("bye");
+
 }
