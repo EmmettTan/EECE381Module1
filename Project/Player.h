@@ -16,6 +16,7 @@
 #include <iostream>
 #include "altera_up_avalon_character_lcd.h"
 #include <time.h>
+#include "MatrixMap.h"
 
 #define UP 'U'
 #define DOWN 'D'
@@ -40,13 +41,12 @@
 		alt_up_parallel_port_dev* parallel_port_dev;
 
 	public:
-	// getters
 		Player();
 		bool validate_next_move(char direction);
 		char get_direction(); // interrupt, returns l,r,f,b
 		int get_x_cord();
 		int get_y_cord();
-		void move();
+		void move(char direction, MatrixMap& m);
 
 
 
