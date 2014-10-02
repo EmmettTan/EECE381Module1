@@ -53,7 +53,7 @@ void VGA_Screen::draw_diagonal_line(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
 //
 void VGA_Screen::draw_boxes(alt_up_pixel_buffer_dma_dev* pixel_buffer, int x_0,
 		int x_1, int y_0, int y_1, int color) {
-	printf("Drawing Box \n");
+	//printf("Drawing Box \n");
 	IOWR_32DIRECT(drawer_base, 0, x_0);
 	// Set x1
 	IOWR_32DIRECT(drawer_base, 4, y_0);
@@ -117,10 +117,18 @@ alt_up_char_buffer_dev* VGA_Screen::init_char_buffer() {
 //high level drawing stuff
 
 //taking in array
-void VGA_Screen::draw_map_from_array(MatrixMap& m_map) {
+//void VGA_Screen::draw_map_from_array(MatrixMap& m_map) {
+//	for (int i = 0; i < 11; i++) {
+//		for (int j = 0; j < 11; j++) {
+//			this->draw_box_from_coordinate(i,j,m_map.map[i][j]);
+//		}
+//	}
+//}
+
+void VGA_Screen::draw_map_from_array(char m_map[11][11]) {
 	for (int i = 0; i < 11; i++) {
 		for (int j = 0; j < 11; j++) {
-			this->draw_box_from_coordinate(i,j,m_map.map[i][j]);
+			this->draw_box_from_coordinate(i,j,m_map[i][j]);
 		}
 	}
 }

@@ -15,7 +15,8 @@
 #include <stdlib.h>
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
 #include "altera_up_avalon_video_character_buffer_with_dma.h"
-#include "MatrixMap.h"
+
+
 class VGA_Screen {
 
 public:
@@ -40,8 +41,8 @@ public:
 	void erase_and_redraw_player(int old_x, int old_y, int new_x, int new_y);
 
 	// MAP matrix stuff
-	void draw_map_from_array(MatrixMap& m_map);
-
+	//void draw_map_from_array(MatrixMap& m_map);
+	void draw_map_from_array(char m_map[11][11]);
 	// buffer variables
 	alt_up_pixel_buffer_dma_dev *pixel_buffer;
 	alt_up_char_buffer_dev *char_buffer;
