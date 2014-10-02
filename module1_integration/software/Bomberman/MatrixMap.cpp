@@ -22,24 +22,34 @@ MatrixMap::MatrixMap(int rows, int cols) { //future contructor
 	 gen_map();*/
 }
 
+char randomize_path(){
+	if(rand()%4 == 3){
+		return BOX;
+	}
+	else{
+		return PATH;
+	}
+}
+
 void MatrixMap::gen_map() { //generates map
 	//int i, j, k;
-
+	srand(time(NULL));
 	for (int i = 0; i < SIZE; i++) {
-
 		for (int j = 0; j < SIZE; j++) {
 			if (i % 2 == 0)
-				map[i][j] = 'x';
+				map[i][j] = randomize_path();
 			else {
 				if (j % 2 == 0) {
-
-					map[i][j] = 'x';
+					map[i][j] = randomize_path();
 				} else
 					map[i][j] = 'o';
 			}
 		}
-
 	}
+
+	map[0][0] = PATH;
+	map[0][1] = PATH;
+	map[1][0] = PATH;
 
 }
 char MatrixMap::get_cord(int x, int y) {
@@ -59,4 +69,21 @@ void MatrixMap::print_matrix() { //prints map to screen
 		printf("\n");
 	}
 
+}
+
+
+void MatrixMap::check_explosion(int x, int y, VGA_Screen& vga){
+	for (int i = x - 2; i < x+2; i++){
+		if (i>=0 && i<11 && map[i][y]==BOX){
+			map[i][y]=PATH;
+			//vga.redraw_path(i, y);
+		}
+	}
+	for (int i = y - 2; i < y+2; i++){
+		if (i>=0 && i<11 && map[x][i]==BOX){
+			map[x][i]=PATH;
+			//vga.redraw_path(x, i);
+		}
+	}
+	this->print_matrix();
 }

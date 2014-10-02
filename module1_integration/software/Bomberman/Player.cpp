@@ -12,7 +12,7 @@
 	Player::Player(){//constructor creates player
 
 		 //initialises position and health
-		 health = 3;
+		 life = 3;
 		 x_cord = 0;
 		 y_cord = 0;
 
@@ -63,19 +63,15 @@
 
 	//move functions increment or decrement x or y coordinates
 	void Player::move_right(){
-			printf("Moving right...");
 			x_cord++;
 	}
 	void Player::move_left(){
-			printf("Moving left...");
 			x_cord--;
 	}
 	void Player::move_up(){
-			printf("Moving up...");
 			y_cord--;
 	}
 	void Player::move_down(){
-			printf("Moving down...");
 			y_cord++;
 	}
 
@@ -93,5 +89,23 @@
 
 	int Player::get_old_y_cord(){
 			return y_old_cord;
+	}
+
+	void Player::life_down(){
+		life--;
+		printf("LIFE DOWN!");
+	}
+
+	void Player::check_explosion(int x, int y){
+		if (x_cord >= x-2 && x_cord <= x+2 && y_cord >= y-2 && y_cord <= y+2){
+			this->life_down();
+			printf("LIFE--");
+		}
+	}
+
+	void Player::place_bomb(){
+		if ( IORD_8DIRECT(SWITCHES, 0)%2 == 1){
+			bomb.place_bomb(x_cord, y_cord);
+		}
 	}
 

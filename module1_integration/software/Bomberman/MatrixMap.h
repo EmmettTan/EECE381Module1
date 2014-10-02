@@ -11,7 +11,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include "VGA_Screen.h"
+
 #define SIZE 11
+
+#define PATH 'x'
+#define BLOCK 'o' //indestructible
+#define BOX 'a' //destructible
+#define BOMB 'b'
 
 class MatrixMap{//creates matrix representation of map
 	private:
@@ -26,6 +34,7 @@ class MatrixMap{//creates matrix representation of map
 		void printrow_x();
 		void printrow_y();
 		char get_cord(int x, int y);
+		void check_explosion(int x, int y, VGA_Screen& vga);
 };
 
 #endif /* MATRIXMAP_H_ */
