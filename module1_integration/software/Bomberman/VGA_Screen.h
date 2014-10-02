@@ -33,7 +33,7 @@ public:
 	void draw_pattern(alt_up_pixel_buffer_dma_dev* pixel_buffer,int x_0, int y_0, int color);
 	void draw_player(alt_up_pixel_buffer_dma_dev* pixel_buffer,int x_0,int y_0, int color);
 	// blanking/painting screen
-	void paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
+	void paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer, int color);
 	void clear_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
 
 	// Drawing box from coordinate

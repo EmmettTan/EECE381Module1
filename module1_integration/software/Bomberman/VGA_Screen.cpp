@@ -125,7 +125,7 @@ void VGA_Screen::draw_pattern(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 
 }
 // paints screen black, you can change color in coding
-void VGA_Screen::paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
+void VGA_Screen::paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer, int color) {
 	printf("Painting Screen White \n");
 	IOWR_32DIRECT(drawer_base, 0, 0);
 	// Set x1
@@ -135,7 +135,7 @@ void VGA_Screen::paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
 	// Set x2
 	IOWR_32DIRECT(drawer_base, 12, 240);
 	// Set y2
-	IOWR_32DIRECT(drawer_base, 16, 0xF000);
+	IOWR_32DIRECT(drawer_base, 16, color);
 	// Set colour
 	IOWR_32DIRECT(drawer_base, 20, 1);
 	// Start drawing
