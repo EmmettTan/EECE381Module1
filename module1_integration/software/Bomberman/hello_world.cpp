@@ -17,18 +17,21 @@ int main() {
 	MatrixMap m;
 	m.print_matrix();
 
-//	while (1) {
-//		p.move(p.get_direction(), m);
-//		printf("%c\n", p.get_direction());
-//		printf("x = %d   y = %d	cord=%c\n", p.get_x_cord(), p.get_y_cord(),
-//				m.get_cord(p.get_x_cord(), p.get_y_cord()));
-//		usleep(100000);
-//	}
-
 	VGA_Screen vga_screen;
 	vga_screen.init();
 	vga_screen.clear_screen(vga_screen.pixel_buffer);
 	vga_screen.draw_map_from_array(m);
+
+	while (1) {
+		p.move(p.get_direction(), m);
+		//printf("%c\n", p.get_direction());
+		//printf("x = %d   y = %d	cord=%c\n", p.get_x_cord(), p.get_y_cord(), m.get_cord(p.get_x_cord(), p.get_y_cord()));
+		vga_screen.erase_and_redraw_player(p.get_old_x_cord(), p.get_old_y_cord(), p.get_x_cord(), p.get_y_cord());
+		usleep(30000);
+	}
+
+
+
 
 	return 0;
 }

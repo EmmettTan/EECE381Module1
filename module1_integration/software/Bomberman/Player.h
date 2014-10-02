@@ -28,6 +28,8 @@
 		char direction;
 		int x_cord;
 		int y_cord;
+		int x_old_cord;
+		int y_old_cord;
 		int health; //3 hit until death
 	//private functions
 		void move_right();
@@ -45,6 +47,8 @@
 		char get_direction(); // interrupt, returns l,r,f,b
 		int get_x_cord();
 		int get_y_cord();
+		int get_old_x_cord();
+		int get_old_y_cord();
 		void move(char direction, MatrixMap& m);
 
 

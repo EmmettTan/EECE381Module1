@@ -49,7 +49,8 @@
 
 	void Player::move(char direction, MatrixMap& m){//moves in direction pressed if legal
 		//checks matrix map for x's marked as legal areas
-
+			x_old_cord = x_cord;
+			y_old_cord = y_cord;
 			if(direction == UP && m.get_cord(x_cord, y_cord-1)=='x' && y_cord>0)
 					move_up();
 			else if(direction == DOWN && m.get_cord(x_cord, y_cord+1)=='x' && y_cord<SIZE-1)
@@ -86,4 +87,11 @@
 		return y_cord;
 	}
 
+	int Player::get_old_x_cord(){
+		return x_old_cord;
+	}
+
+	int Player::get_old_y_cord(){
+			return y_old_cord;
+	}
 
