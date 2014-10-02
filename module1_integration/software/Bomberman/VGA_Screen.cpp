@@ -10,7 +10,6 @@
 #define i_block_color 0xFF8F
 #define player_color 0x0000
 
-
 // Constructor
 VGA_Screen::VGA_Screen() {
 	printf("Constructing VGA Screen \n");
@@ -34,7 +33,6 @@ void VGA_Screen::init() {
 		;
 	alt_up_pixel_buffer_dma_clear_screen(pixel_buffer, 0);
 
-
 }
 
 // TODO Draw a character, needs to take in input
@@ -53,23 +51,79 @@ void VGA_Screen::draw_diagonal_line(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
 //
 void VGA_Screen::draw_boxes(alt_up_pixel_buffer_dma_dev* pixel_buffer, int x_0,
 		int x_1, int y_0, int y_1, int color) {
-	//printf("Drawing Box \n");
-	IOWR_32DIRECT(drawer_base, 0, x_0);
-	// Set x1
-	IOWR_32DIRECT(drawer_base, 4, y_0);
-	// Set y1
-	IOWR_32DIRECT(drawer_base, 8, x_1);
-	// Set x2
-	IOWR_32DIRECT(drawer_base, 12, y_1);
-	// Set y2
-	IOWR_32DIRECT(drawer_base, 16, color);
-	// Set colour
-	IOWR_32DIRECT(drawer_base, 20, 1);
-	// Start drawing
-	while (IORD_32DIRECT(drawer_base,20) == 0)
-		; // wait until done
-}
 
+	printf("Drawing Box \n");
+	if (color == i_block_color) {
+		this->draw_pattern(pixel_buffer, x_0, y_0, color);
+//	} else if (color == player_color) {
+//		this->draw_player(pixel_buffer, x_0, y_0, color);
+	} else {
+		IOWR_32DIRECT(drawer_base, 0, x_0);
+		// Set x1
+		IOWR_32DIRECT(drawer_base, 4, y_0);
+		// Set y1
+		IOWR_32DIRECT(drawer_base, 8, x_1);
+		// Set x2
+		IOWR_32DIRECT(drawer_base, 12, y_1);
+		// Set y2
+		IOWR_32DIRECT(drawer_base, 16, color);
+		// Set colour
+		IOWR_32DIRECT(drawer_base, 20, 1);
+		// Start drawing
+		while (IORD_32DIRECT(drawer_base,20) == 0)
+			; // wait until done
+	}
+}
+//
+void VGA_Screen::draw_player(alt_up_pixel_buffer_dma_dev* pixel_buffer, int x_0,
+		int y_0, int color) {
+	int x, y;
+	for (x = x_0 + 10 - 7; x <= x_0 + 10 + 7; x++)
+		for (y = y_0 + 10 - 7; y <= y_0 + 10 + 7; y++)
+			if (((x * x) + (y * y)) < (7 * 7))
+				alt_up_pixel_buffer_dma_draw(pixel_buffer, color, x, y);
+
+}
+//
+void VGA_Screen::draw_pattern(alt_up_pixel_buffer_dma_dev* pixel_buffer,
+		int x_0, int y_0, int color) {
+	printf("drawing pattern \n");
+
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			IOWR_32DIRECT(drawer_base, 0, x_0 + (j*5));
+			// Set x1
+			IOWR_32DIRECT(drawer_base, 4, y_0 + (i*5));
+			// Set y1
+			IOWR_32DIRECT(drawer_base, 8, x_0 + (j*5) + 5);
+			// Set x2
+			IOWR_32DIRECT(drawer_base, 12, y_0 + (i*5) + 5);
+			// Set y2
+			if (i % 2 == 0) {
+				if (j % 2 == 0) {
+					IOWR_32DIRECT(drawer_base, 16, 0x0000);
+					// Set colour
+				} else {
+					IOWR_32DIRECT(drawer_base, 16, 0xFFFF);
+				}
+			} else {
+				if (j % 2 == 0) {
+					IOWR_32DIRECT(drawer_base, 16, 0xFFFF);
+					// Set colour
+				} else {
+					IOWR_32DIRECT(drawer_base, 16, 0x0000);
+				}
+			}
+			IOWR_32DIRECT(drawer_base, 20, 1);
+			// Start drawing
+			while (IORD_32DIRECT(drawer_base,20) == 0)
+				;
+			//color = color + 0x0823FF;
+		}
+
+	}
+
+}
 // paints screen black, you can change color in coding
 void VGA_Screen::paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
 	printf("Painting Screen White \n");
@@ -81,7 +135,7 @@ void VGA_Screen::paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
 	// Set x2
 	IOWR_32DIRECT(drawer_base, 12, 240);
 	// Set y2
-	IOWR_32DIRECT(drawer_base, 16, 0x0000);
+	IOWR_32DIRECT(drawer_base, 16, 0xF000);
 	// Set colour
 	IOWR_32DIRECT(drawer_base, 20, 1);
 	// Start drawing
@@ -134,28 +188,26 @@ void VGA_Screen::draw_map_from_array(char m_map[11][11]) {
 }
 
 // Drawing 20x20 box: takes in top left coordinate of box
-void VGA_Screen::draw_box_from_coordinate(int x, int y, char c){
-	int x_scaled = x*20 + 50;
-	int y_scaled = y*20 + 10;
+void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
+	int x_scaled = x * 20 + 50;
+	int y_scaled = y * 20 + 10;
 	int color;
-	if (c == 'o'){
+	if (c == 'o') {
 		color = i_block_color;
-	}
-	else if(c == 'x') {
+	} else if (c == 'x') {
 		color = path_color;
-	}
-	else if(c == 'p'){
+	} else if (c == 'p') {
 		color = player_color;
-	}
-	else{
+	} else {
 		printf("check your character array, something is wrong");
 		return;
 	}
-	this->draw_boxes(this->pixel_buffer, x_scaled, x_scaled+20, y_scaled, y_scaled+20, color);
+	this->draw_boxes(this->pixel_buffer, x_scaled, x_scaled + 20, y_scaled,
+			y_scaled + 20, color);
 }
 
-
-void VGA_Screen::erase_and_redraw_player(int old_x, int old_y, int new_x, int new_y){
+void VGA_Screen::erase_and_redraw_player(int old_x, int old_y, int new_x,
+		int new_y) {
 	this->draw_box_from_coordinate(old_x, old_y, 'x');
 	this->draw_box_from_coordinate(new_x, new_y, 'p');
 }
