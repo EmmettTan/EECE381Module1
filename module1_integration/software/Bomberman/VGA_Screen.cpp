@@ -9,6 +9,8 @@
 #define path_color 0xFF4500
 #define i_block_color 0xFF8F
 #define player_color 0x0000
+#define a_block_color 0x0234
+#define bomb_color 0x6969
 
 // Constructor
 VGA_Screen::VGA_Screen() {
@@ -125,7 +127,8 @@ void VGA_Screen::draw_pattern(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 
 }
 // paints screen black, you can change color in coding
-void VGA_Screen::paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer, int color) {
+void VGA_Screen::paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer,
+		int color) {
 	printf("Painting Screen White \n");
 	IOWR_32DIRECT(drawer_base, 0, 0);
 	// Set x1
@@ -182,7 +185,7 @@ alt_up_char_buffer_dev* VGA_Screen::init_char_buffer() {
 void VGA_Screen::draw_map_from_array(char m_map[11][11]) {
 	for (int i = 0; i < 11; i++) {
 		for (int j = 0; j < 11; j++) {
-			this->draw_box_from_coordinate(i,j,m_map[i][j]);
+			this->draw_box_from_coordinate(i, j, m_map[i][j]);
 		}
 	}
 }
@@ -198,6 +201,10 @@ void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
 		color = path_color;
 	} else if (c == 'p') {
 		color = player_color;
+	} else if (c == 'a') {
+		color = a_block_color;
+	} else if (c == 'b') {
+		color = bomb_color;
 	} else {
 		printf("check your character array, something is wrong");
 		return;
@@ -208,7 +215,17 @@ void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
 
 void VGA_Screen::erase_and_redraw_player(int old_x, int old_y, int new_x,
 		int new_y) {
-	this->draw_box_from_coordinate(old_x, old_y, 'x');
-	this->draw_box_from_coordinate(new_x, new_y, 'p');
+	if (!((old_x == new_x) && (old_y == new_y))) {
+		this->draw_box_from_coordinate(old_x, old_y, 'x');
+		this->draw_box_from_coordinate(new_x, new_y, 'p');
+	}
+}
+
+void VGA_Screen::draw_bomb(int x, int y) {
+	this->draw_box_from_coordinate(x, y, 'b');
+}
+
+void VGA_Screen::clear_bomb(int x, int y) {
+	this->draw_box_from_coordinate(x, y, 'x');
 }
 

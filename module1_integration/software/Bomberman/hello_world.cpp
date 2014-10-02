@@ -21,12 +21,15 @@ int main() {
 	vga_screen.init();
 
 	vga_screen.clear_screen(vga_screen.pixel_buffer);
-	vga_screen.paint_screen(vga_screen.pixel_buffer, 0xFFFF);
+	vga_screen.paint_screen(vga_screen.pixel_buffer, 0xF000);
 	vga_screen.draw_map_from_array(m.map);
-
+	vga_screen.draw_box_from_coordinate(0, 0, 'p');
 	while (1) {
 		p.move(p.get_direction(), m);
 		p.place_bomb();
+		if(p.bomb.isActive()){
+			vga_screen.draw_bomb(p.bomb.get_x_cord(), p.bomb.get_y_cord());
+		}
 		if (p.bomb.check_explosion(vga_screen)) {
 			int bomb_x_cord = p.bomb.get_x_cord();
 			int bomb_y_cord = p.bomb.get_y_cord();

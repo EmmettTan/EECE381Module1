@@ -147,6 +147,7 @@ CXX_SRCS += hello_world.cpp
 CXX_SRCS += MatrixMap.cpp
 CXX_SRCS += Player.cpp
 CXX_SRCS += VGA_Screen.cpp
+CXX_SRCS += Bomb.cpp
 ASM_SRCS :=
 
 

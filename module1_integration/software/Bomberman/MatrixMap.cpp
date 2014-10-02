@@ -76,14 +76,15 @@ void MatrixMap::check_explosion(int x, int y, VGA_Screen& vga){
 	for (int i = x - 2; i < x+2; i++){
 		if (i>=0 && i<11 && map[i][y]==BOX){
 			map[i][y]=PATH;
-			//vga.redraw_path(i, y);
+			vga.clear_bomb(i, y);
 		}
 	}
 	for (int i = y - 2; i < y+2; i++){
 		if (i>=0 && i<11 && map[x][i]==BOX){
 			map[x][i]=PATH;
-			//vga.redraw_path(x, i);
+			vga.clear_bomb(x, i);
 		}
 	}
+	vga.clear_bomb(x,y);
 	this->print_matrix();
 }

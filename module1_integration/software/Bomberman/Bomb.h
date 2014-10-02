@@ -15,7 +15,7 @@
 #include <time.h>
 #include "VGA_Screen.h"
 
-#define TIME_TO_EXPLODE 50
+#define TIME_TO_EXPLODE 35
 #define EXPLOSION_DELAY 5
 
 class Bomb{
@@ -26,6 +26,7 @@ class Bomb{
 		int y_cord;
 	public:
 		Bomb();
+		bool isActive();
 		void place_bomb(int x_cord, int y_cord);
 		bool check_explosion(VGA_Screen& vga); // increments timer and checks if it had exploded
 		int get_x_cord();

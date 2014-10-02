@@ -43,6 +43,10 @@ public:
 	// MAP matrix stuff
 	//void draw_map_from_array(MatrixMap& m_map);
 	void draw_map_from_array(char m_map[11][11]);
+
+	void draw_bomb(int x, int y);
+
+	void clear_bomb(int x, int y);
 	// buffer variables
 	alt_up_pixel_buffer_dma_dev *pixel_buffer;
 	alt_up_char_buffer_dev *char_buffer;

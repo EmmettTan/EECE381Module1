@@ -46,6 +46,10 @@ bool Bomb::check_explosion(VGA_Screen& vga){
 	return false;
 }
 
+bool Bomb::isActive(){
+	return active;
+}
+
 int Bomb::get_x_cord(){
 	return x_cord;
 }
