@@ -20,7 +20,9 @@ int main() {
 	VGA_Screen vga_screen;
 	vga_screen.init();
 	vga_screen.clear_screen(vga_screen.pixel_buffer);
+	vga_screen.paint_screen(vga_screen.pixel_buffer);
 	vga_screen.draw_map_from_array(m);
+
 
 	while (1) {
 		p.move(p.get_direction(), m);

@@ -29,8 +29,8 @@ public:
 	void draw_character(alt_up_char_buffer_dev* char_buffer);
 	void draw_diagonal_line(alt_up_pixel_buffer_dma_dev* pixel_buffer);
 	void draw_boxes(alt_up_pixel_buffer_dma_dev* pixel_buffer, int x_0, int x_1, int y_0, int y_1, int color);
-
-
+	void draw_pattern(alt_up_pixel_buffer_dma_dev* pixel_buffer,int x_0, int y_0, int color);
+	void draw_player(alt_up_pixel_buffer_dma_dev* pixel_buffer,int x_0,int y_0, int color);
 	// blanking/painting screen
 	void paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
 	void clear_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
