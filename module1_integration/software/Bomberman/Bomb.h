@@ -13,10 +13,10 @@
 #include <stdlib.h>
 #include <iostream>
 #include <time.h>
-#include "VGA_Screen.h"
+#include <vector>
 
-#define TIME_TO_EXPLODE 35
-#define EXPLOSION_DELAY 5
+#define EXPLOSION_TIME 35
+#define EXPLOSION_ANIMATION_DELAY 8
 
 class Bomb{
 	private:
@@ -24,13 +24,23 @@ class Bomb{
 		int timer;
 		int x_cord;
 		int y_cord;
+		int explosion_range; // MIN 2, MAX 5
+
+		int explosion_animation_timer;
+		bool in_explosion;
 	public:
 		Bomb();
 		bool isActive();
 		void place_bomb(int x_cord, int y_cord);
-		bool check_explosion(VGA_Screen& vga); // increments timer and checks if it had exploded
+		bool exploded();
 		int get_x_cord();
 		int get_y_cord();
+		void increment_timer();
+		int get_explosion_range();
+		std::vector<int> damaged_blocks;
+
+		bool isExploding();
+		bool finishedExploding();
 };
 
 

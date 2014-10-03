@@ -12,6 +12,7 @@
 #include "altera_up_avalon_parallel_port.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 #include "sys/alt_timestamp.h"
 #include <iostream>
 #include <time.h>
@@ -54,8 +55,8 @@ public:
 	int get_old_y_cord();
 	void move(char direction, MatrixMap& m);
 	void life_down();
-	void check_explosion(int x, int y);
-	void place_bomb();
+	void check_damage(std::vector<int> &damaged_blocks);
+	void place_bomb(MatrixMap& m);
 	Bomb bomb;
 };
 

@@ -11,12 +11,16 @@
 Bomb::Bomb(){
 	active = false;
 	timer = 0;
+
+	in_explosion = false;
+	explosion_animation_timer = 0;
 }
 
 void Bomb::place_bomb(int x_cord, int y_cord){
 	if(!active){
 		this->x_cord = x_cord;
 		this->y_cord = y_cord;
+		explosion_range = 1;
 		timer = 0;
 		active = true;
 		printf("BOMB PLACED\n");
@@ -26,24 +30,42 @@ void Bomb::place_bomb(int x_cord, int y_cord){
 	}
 }
 
-bool Bomb::check_explosion(VGA_Screen& vga){
+bool Bomb::exploded(){
+	if (timer == EXPLOSION_TIME && active){
+		active = false;
+		in_explosion = true;
+		explosion_animation_timer = 0;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+void Bomb::increment_timer(){
 	if(active){
 		timer++;
-		if (timer < TIME_TO_EXPLODE){
-			return false;
-		}
-		else if (timer < TIME_TO_EXPLODE + EXPLOSION_DELAY){
-			//vga.draw_explosion(x_cord, y_cord)
-			printf("EXPLOSION!!");
-			return false;
-		}
-		else{
-			printf("CHECK EXPLOSION!!");
-			active = false;
-			return true;
-		}
 	}
-	return false;
+}
+
+bool Bomb::isExploding(){
+	if(in_explosion && explosion_animation_timer < EXPLOSION_ANIMATION_DELAY){
+		explosion_animation_timer++;
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+bool Bomb::finishedExploding(){
+	if (in_explosion){
+		in_explosion = false;
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 bool Bomb::isActive(){
@@ -58,3 +80,6 @@ int Bomb::get_y_cord(){
 	return y_cord;
 }
 
+int Bomb::get_explosion_range(){
+	return explosion_range;
+}

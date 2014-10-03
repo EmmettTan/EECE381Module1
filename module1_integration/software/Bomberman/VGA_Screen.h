@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <vector>
 #include "io.h"
 #include <stdlib.h>
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
@@ -47,6 +48,8 @@ public:
 	void draw_bomb(int x, int y);
 
 	void clear_bomb(int x, int y);
+
+	void draw_explosion(std::vector<int> &damaged_blocks, bool is_explosion);
 	// buffer variables
 	alt_up_pixel_buffer_dma_dev *pixel_buffer;
 	alt_up_char_buffer_dev *char_buffer;

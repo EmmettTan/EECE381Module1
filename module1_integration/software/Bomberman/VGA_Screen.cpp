@@ -11,6 +11,7 @@
 #define player_color 0x0000
 #define a_block_color 0x0234
 #define bomb_color 0x6969
+#define explosion_color 0xFF00
 
 // Constructor
 VGA_Screen::VGA_Screen() {
@@ -54,7 +55,7 @@ void VGA_Screen::draw_diagonal_line(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
 void VGA_Screen::draw_boxes(alt_up_pixel_buffer_dma_dev* pixel_buffer, int x_0,
 		int x_1, int y_0, int y_1, int color) {
 
-	printf("Drawing Box \n");
+	//printf("Drawing Box \n");
 	if (color == i_block_color) {
 		this->draw_pattern(pixel_buffer, x_0, y_0, color);
 //	} else if (color == player_color) {
@@ -205,7 +206,10 @@ void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
 		color = a_block_color;
 	} else if (c == 'b') {
 		color = bomb_color;
-	} else {
+	} else if(c == 'e'){
+		color = explosion_color;
+	}
+	else {
 		printf("check your character array, something is wrong");
 		return;
 	}
@@ -227,5 +231,18 @@ void VGA_Screen::draw_bomb(int x, int y) {
 
 void VGA_Screen::clear_bomb(int x, int y) {
 	this->draw_box_from_coordinate(x, y, 'x');
+}
+
+void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks, bool is_explosion){
+	if (is_explosion){
+		for (int i=0; i<damaged_blocks.size(); i+=2){
+			this->draw_box_from_coordinate(damaged_blocks[i], damaged_blocks[i+1], 'e');
+		}
+	}
+	else{
+		for (int i=0; i<damaged_blocks.size(); i+=2){
+			this->draw_box_from_coordinate(damaged_blocks[i], damaged_blocks[i+1], 'x');
+		}
+	}
 }
 

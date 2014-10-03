@@ -96,16 +96,19 @@
 		printf("LIFE DOWN!");
 	}
 
-	void Player::check_explosion(int x, int y){
-		if (x_cord >= x-2 && x_cord <= x+2 && y_cord >= y-2 && y_cord <= y+2){
-			this->life_down();
-			printf("LIFE--");
+	void Player::check_damage(std::vector<int> &damaged_blocks){
+		for (int i=0; i<damaged_blocks.size(); i+=2){
+			if(x_cord == damaged_blocks[i] && y_cord == damaged_blocks[i+1]){
+				this->life_down();
+				printf("LIFE--");
+			}
 		}
 	}
 
-	void Player::place_bomb(){
+	void Player::place_bomb(MatrixMap& m){
 		if ( IORD_8DIRECT(SWITCHES, 0)%2 == 1){
 			bomb.place_bomb(x_cord, y_cord);
+			m.map[x_cord][y_cord] = BOMB;
 		}
 	}
 

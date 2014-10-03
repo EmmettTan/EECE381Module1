@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "VGA_Screen.h"
+#include <vector>
 
 #define SIZE 11
 
@@ -35,6 +36,7 @@ class MatrixMap{//creates matrix representation of map
 		void printrow_y();
 		char get_cord(int x, int y);
 		void check_explosion(int x, int y, VGA_Screen& vga);
+		std::vector<int> check_damaged_blocks(int x, int y, int range, std::vector<int> &damaged_blocks);
 };
 
 #endif /* MATRIXMAP_H_ */

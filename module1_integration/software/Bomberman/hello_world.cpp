@@ -12,36 +12,50 @@
 #include "Player.h"
 #include "unistd.h"
 
+void game_logic(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen);
+void game_drawing(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen);
+
 int main() {
-	Player p;
-	MatrixMap m;
-	m.print_matrix();
-
+	Player player1;
+	MatrixMap matrix_map;
 	VGA_Screen vga_screen;
-	vga_screen.init();
 
+	vga_screen.init();
 	vga_screen.clear_screen(vga_screen.pixel_buffer);
 	vga_screen.paint_screen(vga_screen.pixel_buffer, 0xF000);
-	vga_screen.draw_map_from_array(m.map);
+	vga_screen.draw_map_from_array(matrix_map.map);
 	vga_screen.draw_box_from_coordinate(0, 0, 'p');
+
 	while (1) {
-		p.move(p.get_direction(), m);
-		p.place_bomb();
-		if(p.bomb.isActive()){
-			vga_screen.draw_bomb(p.bomb.get_x_cord(), p.bomb.get_y_cord());
-		}
-		if (p.bomb.check_explosion(vga_screen)) {
-			int bomb_x_cord = p.bomb.get_x_cord();
-			int bomb_y_cord = p.bomb.get_y_cord();
-			p.check_explosion(bomb_x_cord, bomb_y_cord);
-			m.check_explosion(bomb_x_cord, bomb_y_cord, vga_screen);
-		}
-		//printf("%c\n", p.get_direction());
-		//printf("x = %d   y = %d	cord=%c\n", p.get_x_cord(), p.get_y_cord(), m.get_cord(p.get_x_cord(), p.get_y_cord()));
-		vga_screen.erase_and_redraw_player(p.get_old_x_cord(),
-				p.get_old_y_cord(), p.get_x_cord(), p.get_y_cord());
+		game_logic(player1, matrix_map, vga_screen);
+		game_drawing(player1, matrix_map, vga_screen);
 		usleep(30000);
 	}
 
 	return 0;
 }
+
+void game_logic(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen){
+	player1.move(player1.get_direction(), matrix_map);
+	player1.place_bomb(matrix_map);
+
+	player1.bomb.increment_timer();
+	if (player1.bomb.exploded()) {
+		matrix_map.check_damaged_blocks(player1.bomb.get_x_cord(), player1.bomb.get_y_cord(), player1.bomb.get_explosion_range(), player1.bomb.damaged_blocks);
+		player1.check_damage(player1.bomb.damaged_blocks);
+	}
+}
+
+void game_drawing(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen){
+	vga_screen.erase_and_redraw_player(player1.get_old_x_cord(), player1.get_old_y_cord(), player1.get_x_cord(), player1.get_y_cord());
+	if(player1.bomb.isActive()){
+		vga_screen.draw_bomb(player1.bomb.get_x_cord(), player1.bomb.get_y_cord());
+	}
+	else if(player1.bomb.isExploding()){
+		vga_screen.draw_explosion(player1.bomb.damaged_blocks, true);
+	}
+	else if(player1.bomb.finishedExploding()){
+		vga_screen.draw_explosion(player1.bomb.damaged_blocks, false);
+	}
+}
+
