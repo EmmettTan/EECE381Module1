@@ -50,9 +50,17 @@ public:
 	void clear_bomb(int x, int y);
 
 	void draw_explosion(std::vector<int> &damaged_blocks, bool is_explosion);
+
+	void draw_bitmap(char *file);
+
 	// buffer variables
 	alt_up_pixel_buffer_dma_dev *pixel_buffer;
 	alt_up_char_buffer_dev *char_buffer;
+
+
+
+
+
 
 
 private:

@@ -11,14 +11,24 @@
 #include "VGA_Screen.h"
 #include "Player.h"
 #include "unistd.h"
+#include "altera_up_sd_card_avalon_interface.h"
+#include "SD_Card.h"
 
 void game_logic(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen);
-void game_drawing(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen);
+void game_drawing(Player &player1, MatrixMap &matrix_map,
+		VGA_Screen &vga_screen);
 
 int main() {
+
 	Player player1;
 	MatrixMap matrix_map;
 	VGA_Screen vga_screen;
+	SD_Card sd_card;
+
+	if (sd_card.init()) {
+		short int file_handle = alt_up_sd_card_fopen(Bomberman_Forward_Bitmap, false);
+		alt_up_sd_card_read(file_handle);
+	}
 
 	vga_screen.init();
 	vga_screen.clear_screen(vga_screen.pixel_buffer);
@@ -35,26 +45,31 @@ int main() {
 	return 0;
 }
 
-void game_logic(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen){
+void game_logic(Player &player1, MatrixMap &matrix_map,
+		VGA_Screen &vga_screen) {
 	player1.move(player1.get_direction(), matrix_map);
 	player1.place_bomb(matrix_map);
 
 	player1.bomb.increment_timer();
 	if (player1.bomb.exploded()) {
-		matrix_map.check_damaged_blocks(player1.bomb.get_x_cord(), player1.bomb.get_y_cord(), player1.bomb.get_explosion_range(), player1.bomb.damaged_blocks);
+		matrix_map.check_damaged_blocks(player1.bomb.get_x_cord(),
+				player1.bomb.get_y_cord(), player1.bomb.get_explosion_range(),
+				player1.bomb.damaged_blocks);
 		player1.check_damage(player1.bomb.damaged_blocks);
 	}
 }
 
-void game_drawing(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen){
-	vga_screen.erase_and_redraw_player(player1.get_old_x_cord(), player1.get_old_y_cord(), player1.get_x_cord(), player1.get_y_cord());
-	if(player1.bomb.isActive()){
-		vga_screen.draw_bomb(player1.bomb.get_x_cord(), player1.bomb.get_y_cord());
-	}
-	else if(player1.bomb.isExploding()){
+void game_drawing(Player &player1, MatrixMap &matrix_map,
+		VGA_Screen &vga_screen) {
+	vga_screen.erase_and_redraw_player(player1.get_old_x_cord(),
+			player1.get_old_y_cord(), player1.get_x_cord(),
+			player1.get_y_cord());
+	if (player1.bomb.isActive()) {
+		vga_screen.draw_bomb(player1.bomb.get_x_cord(),
+				player1.bomb.get_y_cord());
+	} else if (player1.bomb.isExploding()) {
 		vga_screen.draw_explosion(player1.bomb.damaged_blocks, true);
-	}
-	else if(player1.bomb.finishedExploding()){
+	} else if (player1.bomb.finishedExploding()) {
 		vga_screen.draw_explosion(player1.bomb.damaged_blocks, false);
 	}
 }
