@@ -94,6 +94,9 @@
 	void Player::life_down(){
 		life--;
 		printf("LIFE DOWN!");
+		if(life == 0){
+			printf("PLAYER HAS DIED");
+		}
 	}
 
 	void Player::check_damage(std::vector<int> &damaged_blocks){
