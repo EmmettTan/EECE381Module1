@@ -83,3 +83,37 @@ bool SD_Card::init() {
 		return false;
 	}
 }
+
+void SD_Card::change_bitmap_array_from_file(char* filename) {
+
+	short int file_handle = alt_up_sd_card_fopen(filename,
+			false);
+	short int header_buffer[54];
+	printf("\n");
+	for (int i = 0; i < 54; i++) {
+		header_buffer[i] = (alt_up_sd_card_read(file_handle) & 0xFF);
+		printf("%hx, ", header_buffer[i]);
+	}
+	unsigned char r;
+	unsigned char g;
+	unsigned char b;
+	short pixel;
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 20; j++) {
+			r = (alt_up_sd_card_read(file_handle));
+			g = (alt_up_sd_card_read(file_handle));
+			b = (alt_up_sd_card_read(file_handle));
+			r = r >> 3;
+			b = b >> 3;
+			g = g >> 2;
+
+			pixel = b;
+			pixel = pixel << 6;
+			pixel = pixel | g;
+			pixel = pixel << 5;
+			pixel = pixel | r;
+			//				pixel = (short)((((r<<6)|g)<<5)|b);
+			bitmap_array[j][19-i] = pixel;
+		}
+	}
+}

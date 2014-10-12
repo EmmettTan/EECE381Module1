@@ -73,7 +73,7 @@ void VGA_Screen::draw_boxes(alt_up_pixel_buffer_dma_dev* pixel_buffer, int x_0,
 		// Set colour
 		IOWR_32DIRECT(drawer_base, 20, 1);
 		// Start drawing
-		while (IORD_32DIRECT(drawer_base,20) == 0)
+		while (IORD_32DIRECT(drawer_base, 20) == 0)
 			; // wait until done
 	}
 }
@@ -94,13 +94,13 @@ void VGA_Screen::draw_pattern(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
-			IOWR_32DIRECT(drawer_base, 0, x_0 + (j*5));
+			IOWR_32DIRECT(drawer_base, 0, x_0 + (j * 5));
 			// Set x1
-			IOWR_32DIRECT(drawer_base, 4, y_0 + (i*5));
+			IOWR_32DIRECT(drawer_base, 4, y_0 + (i * 5));
 			// Set y1
-			IOWR_32DIRECT(drawer_base, 8, x_0 + (j*5) + 5);
+			IOWR_32DIRECT(drawer_base, 8, x_0 + (j * 5) + 5);
 			// Set x2
-			IOWR_32DIRECT(drawer_base, 12, y_0 + (i*5) + 5);
+			IOWR_32DIRECT(drawer_base, 12, y_0 + (i * 5) + 5);
 			// Set y2
 			if (i % 2 == 0) {
 				if (j % 2 == 0) {
@@ -119,7 +119,7 @@ void VGA_Screen::draw_pattern(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 			}
 			IOWR_32DIRECT(drawer_base, 20, 1);
 			// Start drawing
-			while (IORD_32DIRECT(drawer_base,20) == 0)
+			while (IORD_32DIRECT(drawer_base, 20) == 0)
 				;
 			//color = color + 0x0823FF;
 		}
@@ -143,7 +143,7 @@ void VGA_Screen::paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 	// Set colour
 	IOWR_32DIRECT(drawer_base, 20, 1);
 	// Start drawing
-	while (IORD_32DIRECT(drawer_base,20) == 0)
+	while (IORD_32DIRECT(drawer_base, 20) == 0)
 		; // wait until done
 }
 
@@ -206,10 +206,9 @@ void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
 		color = a_block_color;
 	} else if (c == 'b') {
 		color = bomb_color;
-	} else if(c == 'e'){
+	} else if (c == 'e') {
 		color = explosion_color;
-	}
-	else {
+	} else {
 		printf("check your character array, something is wrong");
 		return;
 	}
@@ -233,15 +232,30 @@ void VGA_Screen::clear_bomb(int x, int y) {
 	this->draw_box_from_coordinate(x, y, 'x');
 }
 
-void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks, bool is_explosion){
-	if (is_explosion){
-		for (int i=0; i<damaged_blocks.size(); i+=2){
-			this->draw_box_from_coordinate(damaged_blocks[i], damaged_blocks[i+1], 'e');
+void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
+		bool is_explosion) {
+	if (is_explosion) {
+		for (int i = 0; i < damaged_blocks.size(); i += 2) {
+			this->draw_box_from_coordinate(damaged_blocks[i],
+					damaged_blocks[i + 1], 'e');
+		}
+	} else {
+		for (int i = 0; i < damaged_blocks.size(); i += 2) {
+			this->draw_box_from_coordinate(damaged_blocks[i],
+					damaged_blocks[i + 1], 'x');
 		}
 	}
-	else{
-		for (int i=0; i<damaged_blocks.size(); i+=2){
-			this->draw_box_from_coordinate(damaged_blocks[i], damaged_blocks[i+1], 'x');
+}
+
+// Draws bitmap from bitmap array, specify top right pixel.
+void VGA_Screen::draw_bitmap(alt_up_pixel_buffer_dma_dev* pixel_buffer,
+		short int bitmap[20][20], int x_0, int y_0) {
+	for (int i = 0; i < 20; i++) {
+		for (int j = 0; j < 20; j++) {
+			if (bitmap[i][j] != -1) {
+				alt_up_pixel_buffer_dma_draw(pixel_buffer, bitmap[i][j],
+						x_0 + i, y_0 + j);
+			}
 		}
 	}
 }
