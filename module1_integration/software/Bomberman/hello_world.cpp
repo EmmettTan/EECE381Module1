@@ -16,6 +16,18 @@
 #include <string>
 #include <sstream>
 
+/*
+ * IMPORTANT. in avalon_up_sd_card_avalon_interface.h, you may get a stupid error on the line:
+ *
+ ifndef bool
+    typedef enum e_bool { false = 0, true = 1 } bool;
+#endif
+ *
+ *
+ *     Change ifndef bool to ifndef __cplusplus
+ *
+ */
+
 void game_logic(Player &player1, MatrixMap &matrix_map, VGA_Screen &vga_screen);
 void game_drawing(Player &player1, MatrixMap &matrix_map,
 		VGA_Screen &vga_screen);
@@ -26,30 +38,16 @@ int main() {
 	VGA_Screen vga_screen;
 	SD_Card sd_card;
 
-	vga_screen.init();
+	//must go before vga_screen init
+	sd_card.init();
+
+	vga_screen.init(sd_card);
 	vga_screen.clear_screen(vga_screen.pixel_buffer);
 	vga_screen.paint_screen(vga_screen.pixel_buffer, 0xF000);
 	vga_screen.draw_map_from_array(matrix_map.map);
 	vga_screen.draw_box_from_coordinate(0, 0, 'p');
 
-	if (sd_card.init()) {
-		sd_card.change_bitmap_array_from_file(Bomberman_Forward_Bitmap);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 210, 30);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 210, 50);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 210, 70);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 190, 50);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 230, 50);
 
-		sd_card.change_bitmap_array_from_file(Speed_Powerup_Bitmap);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 90, 30);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 90, 70);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 90, 110);
-
-
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 170, 30);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 130, 150);
-		vga_screen.draw_bitmap(vga_screen.pixel_buffer, sd_card.bitmap_array, 190, 130);
-	}
 
 	while (1) {
 		game_logic(player1, matrix_map, vga_screen);

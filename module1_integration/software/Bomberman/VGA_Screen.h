@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
 #include "altera_up_avalon_video_character_buffer_with_dma.h"
+#include "SD_Card.h"
 
 
 class VGA_Screen {
@@ -24,8 +25,9 @@ public:
 	// Public Methods
 	VGA_Screen();
 
+	SD_Card sd_card;
 	// initializing methods
-	void init();
+	void init(SD_Card sd_card);
 
 	// drawing functions
 	void draw_character(alt_up_char_buffer_dev* char_buffer);
@@ -36,6 +38,7 @@ public:
 	// blanking/painting screen
 	void paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer, int color);
 	void clear_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
+	void draw_flame(int x, int y);
 
 	// Drawing box from coordinate
 	void draw_box_from_coordinate(int x, int y, char c);

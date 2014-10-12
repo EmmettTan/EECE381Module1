@@ -63,6 +63,7 @@ bool SD_Card::init() {
 				printf("Card connected.\n");
 				if (alt_up_sd_card_is_FAT16()) {
 					printf("FAT16 file system detected.\n");
+					this->setup_bitmaps_from_sd_card();
 					return true;
 				} else {
 					printf("Unknown file system.\n");
@@ -84,7 +85,15 @@ bool SD_Card::init() {
 	}
 }
 
-void SD_Card::change_bitmap_array_from_file(char* filename) {
+/*
+ * add in new bitmaps here
+ */
+void SD_Card::setup_bitmaps_from_sd_card(){
+	this->change_bitmap_array_from_file(Flame_Bitmap, flame_array);
+	this->change_bitmap_array_from_file(Speed_Powerup_Bitmap, speed_powerup_array);
+}
+
+void SD_Card::change_bitmap_array_from_file(char* filename, short int bitmap_array[20][20]) {
 
 	short int file_handle = alt_up_sd_card_fopen(filename,
 			false);

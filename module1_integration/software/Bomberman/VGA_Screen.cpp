@@ -6,12 +6,15 @@
  */
 
 #include "VGA_Screen.h"
+#include "SD_Card.h"
 #define path_color 0xFF4500
 #define i_block_color 0xFF8F
 #define player_color 0x0000
 #define a_block_color 0x0234
 #define bomb_color 0x6969
 #define explosion_color 0xFF00
+
+
 
 // Constructor
 VGA_Screen::VGA_Screen() {
@@ -21,8 +24,10 @@ VGA_Screen::VGA_Screen() {
 }
 
 // Make sure you call this when creating a VGA_Screen object
-void VGA_Screen::init() {
+void VGA_Screen::init(SD_Card sd_card_temp) {
 	// Init Screen
+	this->sd_card = sd_card_temp;
+
 	printf("Initializing VGA Screen \n");
 	if (this->pixel_buffer == 0) {
 		printf(
@@ -232,12 +237,17 @@ void VGA_Screen::clear_bomb(int x, int y) {
 	this->draw_box_from_coordinate(x, y, 'x');
 }
 
+void VGA_Screen::draw_flame(int x, int y){
+	this->draw_bitmap(this->pixel_buffer, this->sd_card.flame_array, x*20+50, y*20+10 );
+}
+
 void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
 		bool is_explosion) {
 	if (is_explosion) {
 		for (int i = 0; i < damaged_blocks.size(); i += 2) {
-			this->draw_box_from_coordinate(damaged_blocks[i],
-					damaged_blocks[i + 1], 'e');
+//			this->draw_box_from_coordinate(damaged_blocks[i],
+//					damaged_blocks[i + 1], 'e');
+			this->draw_flame(damaged_blocks[i], damaged_blocks[i+1]);
 		}
 	} else {
 		for (int i = 0; i < damaged_blocks.size(); i += 2) {
