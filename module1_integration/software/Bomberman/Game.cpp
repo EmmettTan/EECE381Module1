@@ -17,11 +17,28 @@ void Game::init() {
 
 	this->vga_screen.init(sd_card);
 	this->vga_screen.clear_screen(vga_screen.pixel_buffer);
+}
+
+void Game::draw_map_and_player() {
 	this->vga_screen.paint_screen(vga_screen.pixel_buffer, 0xF000);
 	this->vga_screen.draw_map_from_array(matrix_map.map);
 	this->vga_screen.draw_box_from_coordinate(0, 0, 'p');
 
-	this->vga_screen.draw_image_from_bitmap(5,0,this->sd_card.flame_array);
+	this->vga_screen.draw_image_from_bitmap(5, 0, this->sd_card.flame_array);
+}
+
+void Game::menu_screen() {
+	this->vga_screen.draw_character(this->vga_screen.char_buffer);
+}
+
+void Game::match_start() {
+	this->draw_map_and_player();
+	while (1) {
+
+		this->game_logic(player1, matrix_map, vga_screen);
+		this->game_drawing(player1, matrix_map, vga_screen);
+		usleep(30000);
+	}
 }
 
 void Game::game_drawing(Player &player1, MatrixMap &matrix_map,
@@ -54,10 +71,7 @@ void Game::game_logic(Player &player1, MatrixMap &matrix_map,
 }
 
 void Game::run() {
-	while (1) {
-		game_logic(player1, matrix_map, vga_screen);
-		game_drawing(player1, matrix_map, vga_screen);
-		usleep(30000);
-	}
+	this->menu_screen();
+	this->match_start();
 }
 

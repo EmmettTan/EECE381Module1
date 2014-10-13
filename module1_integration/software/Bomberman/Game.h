@@ -37,6 +37,13 @@ public:
 	Game();
 
 	void init();
+
+	void draw_map_and_player();
+
+	void menu_screen();
+
+	void match_start();
+
 	void game_logic(Player &player1, MatrixMap &matrix_map,
 			VGA_Screen &vga_screen);
 	void game_drawing(Player &player1, MatrixMap &matrix_map,

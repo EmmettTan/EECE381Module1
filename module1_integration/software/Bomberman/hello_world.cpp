@@ -1,20 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include "io.h"
-#include <stdlib.h>
-#include "altera_up_avalon_video_pixel_buffer_dma.h"
-#include "altera_up_avalon_video_character_buffer_with_dma.h"
-#include <time.h>
-#include "sys/alt_timestamp.h"
-#include <iostream>
-#include "MatrixMap.h"
-#include "VGA_Screen.h"
-#include "Player.h"
-#include "unistd.h"
-#include "altera_up_sd_card_avalon_interface.h"
-#include "SD_Card.h"
-#include <string>
-#include <sstream>
 #include "Game.h"
 
 /*
