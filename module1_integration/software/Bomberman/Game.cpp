@@ -20,6 +20,8 @@ void Game::init() {
 	this->vga_screen.paint_screen(vga_screen.pixel_buffer, 0xF000);
 	this->vga_screen.draw_map_from_array(matrix_map.map);
 	this->vga_screen.draw_box_from_coordinate(0, 0, 'p');
+
+	this->vga_screen.draw_image_from_bitmap(5,0,this->sd_card.flame_array);
 }
 
 void Game::game_drawing(Player &player1, MatrixMap &matrix_map,

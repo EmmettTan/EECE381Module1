@@ -241,6 +241,10 @@ void VGA_Screen::draw_flame(int x, int y){
 	this->draw_bitmap(this->pixel_buffer, this->sd_card.flame_array, x*20+50, y*20+10 );
 }
 
+void VGA_Screen::draw_image_from_bitmap(int x, int y, short int bitmap[20][20]){
+	this->draw_bitmap(this->pixel_buffer, bitmap, x*20+50, y*20+10 );
+}
+
 void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
 		bool is_explosion) {
 	if (is_explosion) {

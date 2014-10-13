@@ -55,6 +55,7 @@ public:
 	void draw_explosion(std::vector<int> &damaged_blocks, bool is_explosion);
 
 	void draw_bitmap(alt_up_pixel_buffer_dma_dev* pixel_buffer, short int bitmap[20][20], int x_0, int y_0);
+	void draw_image_from_bitmap(int x, int y, short int array[20][20]);
 
 	// buffer variables
 	alt_up_pixel_buffer_dma_dev *pixel_buffer;
