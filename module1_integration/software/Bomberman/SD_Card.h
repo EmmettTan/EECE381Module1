@@ -8,6 +8,19 @@
 #ifndef SD_CARD_H_
 #define SD_CARD_H_
 
+#define Bomberman_Right_B0 "Bman_B_f00.bmp"
+#define Bomberman_Right_B1 "Bman_B_f01.bmp"
+#define Bomberman_Right_B2 "Bman_B_f02.bmp"
+#define Bomberman_Right_B3 "Bman_B_f03.bmp"
+#define Bomberman_Right_B4 "Bman_B_f04.bmp"
+#define Bomberman_Right_B5 "Bman_B_f05.bmp"
+#define Bomberman_Right_B6 "Bman_B_f06.bmp"
+#define Bomberman_Right_B7 "Bman_B_f07.bmp"
+#define Destr_Block "block.bmp"
+#define Solid_Block "block2.bmp"
+#define Bomb_Map "bomb2.bmp"
+#define Speed_Powerup_Bitmap "SpeedUp.bmp"
+
 // Bitmap Filenames
 // Bomberman
 #define Bomberman_Forward_Bitmap "b_f.bmp"
@@ -20,9 +33,7 @@
 
 #define Flame_Bitmap "b_f.bmp"
 
-
 #include "altera_up_sd_card_avalon_interface.h"
-
 
 class SD_Card {
 public:
@@ -30,6 +41,12 @@ public:
 	bool init();
 	void look_for_other_files(char *filename);
 	void setup_bitmaps_from_sd_card();
+
+	short int bomb_Bmap[20][20];
+
+	short int solid_block[20][20];
+	short int destr_block[20][20];
+
 
 
 	short int bomberman_forward_array[20][20];
@@ -80,15 +97,14 @@ public:
 	// Flame Arrays
 	short int flame_array[20][20];
 
-
 	alt_up_sd_card_dev *device_reference;
 	int connected;
 	char *filename;
 	char *directory; // root directory
 private:
 
-
-	void change_bitmap_array_from_file(char* filename, short int bitmap_array[20][20]);
+	void change_bitmap_array_from_file(char* filename,
+			short int bitmap_array[20][20]);
 
 };
 

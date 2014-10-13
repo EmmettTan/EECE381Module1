@@ -91,6 +91,17 @@ bool SD_Card::init() {
 void SD_Card::setup_bitmaps_from_sd_card(){
 	this->change_bitmap_array_from_file(Flame_Bitmap, flame_array);
 	this->change_bitmap_array_from_file(Speed_Powerup_Bitmap, speed_powerup_array);
+	this->change_bitmap_array_from_file(Bomberman_Right_B0, bomberman_backwards_f00_array);
+	this->change_bitmap_array_from_file(Bomberman_Right_B1, bomberman_backwards_f01_array);
+	this->change_bitmap_array_from_file(Bomberman_Right_B2, bomberman_backwards_f02_array);
+	this->change_bitmap_array_from_file(Bomberman_Right_B3, bomberman_backwards_f03_array);
+	this->change_bitmap_array_from_file(Bomberman_Right_B4, bomberman_backwards_f04_array);
+	this->change_bitmap_array_from_file(Bomberman_Right_B5, bomberman_backwards_f05_array);
+	this->change_bitmap_array_from_file(Bomberman_Right_B6, bomberman_backwards_f06_array);
+	this->change_bitmap_array_from_file(Bomberman_Right_B7, bomberman_backwards_f07_array);
+	this->change_bitmap_array_from_file(Solid_Block, solid_block);
+	this->change_bitmap_array_from_file(Destr_Block, destr_block);
+	this->change_bitmap_array_from_file(Bomb_Map, bomb_Bmap);
 }
 
 void SD_Card::change_bitmap_array_from_file(char* filename, short int bitmap_array[20][20]) {

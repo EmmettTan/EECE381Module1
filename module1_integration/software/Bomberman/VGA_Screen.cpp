@@ -14,8 +14,6 @@
 #define bomb_color 0x6969
 #define explosion_color 0xFF00
 
-
-
 // Constructor
 VGA_Screen::VGA_Screen() {
 	printf("Constructing VGA Screen \n");
@@ -203,22 +201,28 @@ void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
 	int color;
 	if (c == 'o') {
 		color = i_block_color;
+		this->draw_image_from_bitmap(x,y,this->sd_card.destr_block);
 	} else if (c == 'x') {
 		color = path_color;
+		this->draw_boxes(this->pixel_buffer, x_scaled, x_scaled + 20, y_scaled,
+				y_scaled + 20, color);
 	} else if (c == 'p') {
 		color = player_color;
+		this->draw_image_from_bitmap(x,y,this->sd_card.flame_array);
 	} else if (c == 'a') {
 		color = a_block_color;
+		this->draw_image_from_bitmap(x,y,this->sd_card.solid_block);
 	} else if (c == 'b') {
 		color = bomb_color;
+		this->draw_image_from_bitmap(x,y,this->sd_card.bomb_Bmap);
 	} else if (c == 'e') {
 		color = explosion_color;
+		this->draw_image_from_bitmap(x,y,this->sd_card.flame_array);
 	} else {
 		printf("check your character array, something is wrong");
 		return;
 	}
-	this->draw_boxes(this->pixel_buffer, x_scaled, x_scaled + 20, y_scaled,
-			y_scaled + 20, color);
+
 }
 
 void VGA_Screen::erase_and_redraw_player(int old_x, int old_y, int new_x,
@@ -237,12 +241,14 @@ void VGA_Screen::clear_bomb(int x, int y) {
 	this->draw_box_from_coordinate(x, y, 'x');
 }
 
-void VGA_Screen::draw_flame(int x, int y){
-	this->draw_bitmap(this->pixel_buffer, this->sd_card.flame_array, x*20+50, y*20+10 );
+void VGA_Screen::draw_flame(int x, int y) {
+	this->draw_bitmap(this->pixel_buffer, this->sd_card.flame_array,
+			x * 20 + 50, y * 20 + 10);
 }
 
-void VGA_Screen::draw_image_from_bitmap(int x, int y, short int bitmap[20][20]){
-	this->draw_bitmap(this->pixel_buffer, bitmap, x*20+50, y*20+10 );
+void VGA_Screen::draw_image_from_bitmap(int x, int y,
+		short int bitmap[20][20]) {
+	this->draw_bitmap(this->pixel_buffer, bitmap, x * 20 + 50, y * 20 + 10);
 }
 
 void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
@@ -251,7 +257,7 @@ void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
 		for (int i = 0; i < damaged_blocks.size(); i += 2) {
 //			this->draw_box_from_coordinate(damaged_blocks[i],
 //					damaged_blocks[i + 1], 'e');
-			this->draw_flame(damaged_blocks[i], damaged_blocks[i+1]);
+			this->draw_flame(damaged_blocks[i], damaged_blocks[i + 1]);
 		}
 	} else {
 		for (int i = 0; i < damaged_blocks.size(); i += 2) {
