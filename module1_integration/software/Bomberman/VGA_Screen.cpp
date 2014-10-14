@@ -18,7 +18,6 @@
 VGA_Screen::VGA_Screen() {
 	printf("Constructing VGA Screen \n");
 	this->pixel_buffer = init_pixel_buffer();
-
 	this->char_buffer = init_char_buffer();
 }
 
@@ -50,9 +49,9 @@ void VGA_Screen::draw_character(alt_up_char_buffer_dev* char_buffer) {
 }
 
 // Not sure if this will be useful or not, but kept it anyways
-void VGA_Screen::draw_line(alt_up_pixel_buffer_dma_dev* pixel_buffer,
-		int x_0, int x_1, int y_0, int y_1, int color) {
-	alt_up_pixel_buffer_dma_draw_line(pixel_buffer, x_0, y_0, x_1, y_1, color, 0);
+void VGA_Screen::draw_diagonal_line(alt_up_pixel_buffer_dma_dev* pixel_buffer) {
+	printf("Drawing Diagonal Line \n");
+	alt_up_pixel_buffer_dma_draw_line(pixel_buffer, 0, 0, 320, 240, 0x00ff, 0);
 }
 
 //
@@ -176,9 +175,6 @@ alt_up_char_buffer_dev* VGA_Screen::init_char_buffer() {
 
 }
 
-void VGA_Screen::clear_characters() {
-	alt_up_char_buffer_clear(this->char_buffer);
-}
 //high level drawing stuff
 
 //taking in array
@@ -205,23 +201,23 @@ void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
 	int color;
 	if (c == 'o') {
 		color = i_block_color;
-		this->draw_image_from_bitmap(x, y, this->sd_card.destr_block);
+		this->draw_image_from_bitmap(x,y,this->sd_card.destr_block);
 	} else if (c == 'x') {
 		color = path_color;
 		this->draw_boxes(this->pixel_buffer, x_scaled, x_scaled + 20, y_scaled,
 				y_scaled + 20, color);
 	} else if (c == 'p') {
 		color = player_color;
-		this->draw_image_from_bitmap(x, y, this->sd_card.flame_array);
+		this->draw_image_from_bitmap(x,y,this->sd_card.bomberman_backwards_f00_array);
 	} else if (c == 'a') {
 		color = a_block_color;
-		this->draw_image_from_bitmap(x, y, this->sd_card.solid_block);
+		this->draw_image_from_bitmap(x,y,this->sd_card.solid_block);
 	} else if (c == 'b') {
 		color = bomb_color;
-		this->draw_image_from_bitmap(x, y, this->sd_card.bomb_Bmap);
+		this->draw_image_from_bitmap(x,y,this->sd_card.bomb_Bmap);
 	} else if (c == 'e') {
 		color = explosion_color;
-		this->draw_image_from_bitmap(x, y, this->sd_card.flame_array);
+		this->draw_image_from_bitmap(x,y,this->sd_card.flame_array);
 	} else {
 		printf("check your character array, something is wrong");
 		return;
@@ -283,4 +279,6 @@ void VGA_Screen::draw_bitmap(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 		}
 	}
 }
-
+void VGA_Screen::refresh_player(int x, int y){
+	this->draw_image_from_bitmap(x, y, this->sd_card.bomberman_backwards_f00_array);
+}
