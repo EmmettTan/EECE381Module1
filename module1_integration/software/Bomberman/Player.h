@@ -47,7 +47,6 @@ private:
 
 public:
 	Player();
-	Player(int x, int y, int player_num);
 	bool validate_next_move(char direction);
 	char get_direction(); // interrupt, returns l,r,f,b
 	int get_x_cord();
@@ -55,8 +54,8 @@ public:
 	int get_old_x_cord();
 	int get_old_y_cord();
 	void move(char direction, MatrixMap& m);
-	bool life_down();
-	bool check_damage(std::vector<int> &damaged_blocks);
+	void life_down();
+	void check_damage(std::vector<int> &damaged_blocks);
 	void place_bomb(MatrixMap& m);
 	Bomb bomb;
 };
