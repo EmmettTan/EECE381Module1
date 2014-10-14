@@ -48,6 +48,8 @@ public:
 			VGA_Screen &vga_screen);
 	void game_drawing(Player &player1, MatrixMap &matrix_map,
 			VGA_Screen &vga_screen);
+
+
 	void run();
 };
 

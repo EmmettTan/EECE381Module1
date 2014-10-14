@@ -17,22 +17,69 @@ void Game::init() {
 
 	this->vga_screen.init(sd_card);
 	this->vga_screen.clear_screen(vga_screen.pixel_buffer);
+	this->vga_screen.clear_characters();
 }
 
 void Game::draw_map_and_player() {
-	this->vga_screen.paint_screen(vga_screen.pixel_buffer, 0xF000);
+	this->vga_screen.paint_screen(vga_screen.pixel_buffer, 0xFFF0);
 	this->vga_screen.draw_map_from_array(matrix_map.map);
 	this->vga_screen.draw_box_from_coordinate(0, 0, 'p');
-
-	this->vga_screen.draw_image_from_bitmap(5, 0, this->sd_card.flame_array);
 }
 
 void Game::menu_screen() {
-	this->vga_screen.draw_character(this->vga_screen.char_buffer);
+	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 137, 182, 80, 80,
+			0xFFFF);
+	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 137, 182, 100,
+			100, 0xFFFF);
+	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 137, 137, 80, 100,
+			0xFFFF);
+	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 182, 182, 80, 100,
+			0xFFFF);
+
+	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 186, 80 + 60,
+			80 + 60, 0xFFFF);
+	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 186,
+			100 + 60, 100 + 60, 0xFFFF);
+	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 133, 80 + 60,
+			100 + 60, 0xFFFF);
+	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 186, 186, 80 + 60,
+			100 + 60, 0xFFFF);
+
+	alt_up_char_buffer_string(this->vga_screen.char_buffer, "Start Game", 35,
+			22);
+	alt_up_char_buffer_string(this->vga_screen.char_buffer, "Toggle Sound", 34,
+			37);
+
+	while (1) {
+		usleep(100000);
+		if (this->player1.get_direction() == 'R')
+			break;
+	}
+
+	return;
+
 }
 
 void Game::match_start() {
+	this->vga_screen.clear_characters();
 	this->draw_map_and_player();
+	alt_up_char_buffer_string(this->vga_screen.char_buffer, "3", 40, 25);
+	usleep(500000);
+	this->vga_screen.clear_characters();
+	usleep(500000);
+	alt_up_char_buffer_string(this->vga_screen.char_buffer, "2", 40, 25);
+	usleep(500000);
+	this->vga_screen.clear_characters();
+	usleep(500000);
+	alt_up_char_buffer_string(this->vga_screen.char_buffer, "1", 40, 25);
+	usleep(500000);
+	this->vga_screen.clear_characters();
+	usleep(500000);
+	alt_up_char_buffer_string(this->vga_screen.char_buffer, "GO!", 39, 25);
+	usleep(500000);
+	this->vga_screen.clear_characters();
+	usleep(500000);
+
 	while (1) {
 
 		this->game_logic(player1, matrix_map, vga_screen);
