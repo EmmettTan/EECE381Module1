@@ -284,5 +284,5 @@ void VGA_Screen::draw_bitmap(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 	}
 }
 void VGA_Screen::refresh_player(int x, int y){
-	this->draw_image_from_bitmap(x, y, this->sd_card.bomberman_backwards_f00_array);
+	this->draw_image_from_bitmap(x, y, this->sd_card.flame_array);
 }
