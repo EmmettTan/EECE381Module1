@@ -47,6 +47,7 @@ private:
 
 public:
 	Player();
+	Player(int x, int y, int player_num);
 	bool validate_next_move(char direction);
 	char get_direction(); // interrupt, returns l,r,f,b
 	int get_x_cord();

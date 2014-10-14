@@ -23,6 +23,16 @@
 				 else
 					printf("Opened Parallel Port device\n");
 	}
+	Player::Player(int x, int y, int player_num){
+		life = 3;
+		x_cord=x;
+		y_cord=x;
+		parallel_port_dev = alt_up_parallel_port_open_dev("/dev/parallel_port_0");
+			 if (parallel_port_dev == NULL)
+					printf("Error: could not open Parallel Port device\n");
+			 else
+					printf("Opened Parallel Port device\n");
+	}
 
 	char Player::get_direction(){//returns the direction pressed
 		unsigned int key;

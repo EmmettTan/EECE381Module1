@@ -39,7 +39,7 @@ public:
 	void paint_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer, int color);
 	void clear_screen(alt_up_pixel_buffer_dma_dev* pixel_buffer);
 	void draw_flame(int x, int y);
-
+	void refresh_player(int x, int y);
 	// Drawing box from coordinate
 	void draw_box_from_coordinate(int x, int y, char c);
 	void erase_and_redraw_player(int old_x, int old_y, int new_x, int new_y);
