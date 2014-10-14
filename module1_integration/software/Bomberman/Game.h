@@ -44,12 +44,10 @@ public:
 
 	void match_start();
 
-	void game_logic(Player &player1, MatrixMap &matrix_map,
+	void game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 			VGA_Screen &vga_screen);
-	void game_drawing(Player &player1, MatrixMap &matrix_map,
+	void game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 			VGA_Screen &vga_screen);
-
-
 	void run();
 };
 
