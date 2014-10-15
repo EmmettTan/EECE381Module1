@@ -15,7 +15,7 @@
 		 life = 3;
 		 x_cord = 0;
 		 y_cord = 0;
-
+		 num_bombs = 1;
 		 //initialises parallel port to read from direction from keys
 		 parallel_port_dev = alt_up_parallel_port_open_dev("/dev/parallel_port_0");
 			 if (parallel_port_dev == NULL)
@@ -26,7 +26,8 @@
 	Player::Player(int x, int y, int player_num){
 		life = 3;
 		x_cord=x;
-		y_cord=x;
+		y_cord=y;
+		num_bombs = 1;
 		parallel_port_dev = alt_up_parallel_port_open_dev("/dev/parallel_port_0");
 			 if (parallel_port_dev == NULL)
 					printf("Error: could not open Parallel Port device\n");
@@ -34,6 +35,13 @@
 					printf("Opened Parallel Port device\n");
 	}
 
+	void Player::init(int x, int y){
+		life = 3;
+		x_cord=x;
+		y_cord=y;
+		num_bombs = 1;
+		bomb.damaged_blocks.clear();
+	}
 	char Player::get_direction(){//returns the direction pressed
 		unsigned int key;
 		key = alt_up_parallel_port_read_data(parallel_port_dev);
@@ -109,11 +117,11 @@
 		}
 	}
 
-	void Player::check_damage(std::vector<int> &damaged_blocks){
+	bool Player::check_damage(std::vector<int> &damaged_blocks){
 		for (int i=0; i<damaged_blocks.size(); i+=2){
 			if(x_cord == damaged_blocks[i] && y_cord == damaged_blocks[i+1]){
 				this->life_down();
-				printf("LIFE--");
+				return true;
 			}
 		}
 	}
@@ -124,4 +132,13 @@
 			m.map[x_cord][y_cord] = BOMB;
 		}
 	}
+
+	int Player::get_life(){
+		return life;
+	}
+
+	int Player::get_num_bombs(){
+		return num_bombs;
+	}
+
 

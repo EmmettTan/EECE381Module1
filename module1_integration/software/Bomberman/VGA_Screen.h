@@ -10,8 +10,10 @@
 #define drawer_base (volatile int *) 0x2100
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <vector>
+#include <string>
 #include "io.h"
 #include <stdlib.h>
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
@@ -61,19 +63,14 @@ public:
 
 	void clear_characters();
 
+	void print_player_info(int player_number, int num_lives, int num_bombs, int num_bomb_range, int num_speed);
 	// buffer variables
 	alt_up_pixel_buffer_dma_dev *pixel_buffer;
 	alt_up_char_buffer_dev *char_buffer;
-
-
-
-
-
+	bool update_player_status;
 
 
 private:
-
-
 	// Private Methods
 	alt_up_pixel_buffer_dma_dev* init_pixel_buffer();
 	alt_up_char_buffer_dev* init_char_buffer();

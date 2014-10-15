@@ -18,6 +18,7 @@
 #include <time.h>
 #include "MatrixMap.h"
 #include "Bomb.h"
+#include "VGA_Screen.h"
 
 #define UP 'U'
 #define DOWN 'D'
@@ -36,6 +37,7 @@ private:
 	int x_old_cord;
 	int y_old_cord;
 	int life; //3 hit until death
+	int num_bombs;
 	//private functions
 	void move_right();
 	void move_left();
@@ -47,6 +49,7 @@ private:
 
 public:
 	Player();
+	void init(int x, int y);
 	Player(int x, int y, int player_num);
 	bool validate_next_move(char direction);
 	char get_direction(); // interrupt, returns l,r,f,b
@@ -56,8 +59,10 @@ public:
 	int get_old_y_cord();
 	void move(char direction, MatrixMap& m);
 	void life_down();
-	void check_damage(std::vector<int> &damaged_blocks);
+	bool check_damage(std::vector<int> &damaged_blocks);
 	void place_bomb(MatrixMap& m);
+	int get_life();
+	int get_num_bombs();
 	Bomb bomb;
 };
 

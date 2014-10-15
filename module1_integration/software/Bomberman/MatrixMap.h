@@ -30,7 +30,7 @@ class MatrixMap{//creates matrix representation of map
 		char map[SIZE][SIZE];
 		MatrixMap();
 		MatrixMap(int nrows, int ncols);
-		void gen_map();
+		void gen_map(int rand_cicles);
 		void print_matrix();
 		void printrow_x();
 		void printrow_y();

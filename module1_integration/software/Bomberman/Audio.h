@@ -21,7 +21,7 @@ class Audio{
 	public:
 
 	void load_audio();
-
+	unsigned long rand();
 
 };
 

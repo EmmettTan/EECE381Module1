@@ -12,7 +12,7 @@ MatrixMap::MatrixMap() { //contructor dynamically initializes and generates map
 
 	srand(time(NULL));
 	//char m = new map[SIZE][SIZE];
-	gen_map();
+	gen_map(0);
 
 }
 
@@ -31,9 +31,9 @@ char randomize_path() {
 	}
 }
 
-void MatrixMap::gen_map() { //generates map
+void MatrixMap::gen_map(int rand_cicles) { //generates map
 	//int i, j, k;
-	srand(time(NULL));
+	srand(rand_cicles);
 	for (int i = 0; i < SIZE; i++) {
 		for (int j = 0; j < SIZE; j++) {
 			if (i % 2 == 0)
@@ -50,6 +50,9 @@ void MatrixMap::gen_map() { //generates map
 	map[0][0] = PATH;
 	map[0][1] = PATH;
 	map[1][0] = PATH;
+	map[10][10] = PATH;
+	map[10][9] = PATH;
+	map[9][10] = PATH;
 
 }
 char MatrixMap::get_cord(int x, int y) {
@@ -57,7 +60,7 @@ char MatrixMap::get_cord(int x, int y) {
 }
 
 void MatrixMap::print_matrix() { //prints map to screen
-	int i, j, k;
+	int i, j;
 
 	for (i = 0; i < SIZE; i++) {
 

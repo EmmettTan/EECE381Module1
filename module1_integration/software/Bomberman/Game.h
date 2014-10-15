@@ -35,6 +35,7 @@ public:
 	VGA_Screen vga_screen;
 	SD_Card sd_card;
 	Audio game_audio;
+	bool game_over;
 
 	Game();
 

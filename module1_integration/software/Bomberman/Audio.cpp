@@ -11,6 +11,7 @@ alt_up_audio_dev * audio;
 volatile long current_audio_stream_pos;
 unsigned int *mono_audio_stream;
 long stream_size;
+volatile unsigned long rand_cicles = 0;
 
 void av_config_setup() {
 	printf("\n****************************\n\n");
@@ -31,6 +32,7 @@ void audio_isr(void * context, alt_u32 irq_id) {
 	if (current_audio_stream_pos >= stream_size - BUF_SIZE) {
 		current_audio_stream_pos = 0;
 	}
+	rand_cicles++;
 }
 
 void Audio::load_audio() {
@@ -138,3 +140,6 @@ void Audio::load_audio() {
 	alt_up_audio_enable_write_interrupt(audio);
 }
 
+unsigned long Audio::rand(){
+	return rand_cicles;
+}
