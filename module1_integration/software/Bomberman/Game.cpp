@@ -108,6 +108,7 @@ void Game::game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 		vga_screen.draw_explosion(player1.bomb.damaged_blocks, false);
 		vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
 		vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
+		vga_screen.draw_speed_powerups(matrix_map.powerups);
 	}
 	if (player2.bomb.isActive()) {
 		vga_screen.draw_bomb(player2.bomb.get_x_cord(),
@@ -118,6 +119,7 @@ void Game::game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 		vga_screen.draw_explosion(player2.bomb.damaged_blocks, false);
 		vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
 		vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
+		vga_screen.draw_speed_powerups(matrix_map.powerups);
 	}
 }
 
@@ -138,8 +140,6 @@ void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 				player1.bomb.damaged_blocks);
 		player1.check_damage(player1.bomb.damaged_blocks);
 		player2.check_damage(player1.bomb.damaged_blocks);
-		vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
-		vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
 	}
 	if (player2.bomb.exploded()) {
 		matrix_map.check_damaged_blocks(player2.bomb.get_x_cord(),
@@ -147,8 +147,6 @@ void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 				player2.bomb.damaged_blocks);
 		player1.check_damage(player2.bomb.damaged_blocks);
 		player2.check_damage(player2.bomb.damaged_blocks);
-		vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
-		vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
 	}
 }
 

@@ -50,9 +50,10 @@ void VGA_Screen::draw_character(alt_up_char_buffer_dev* char_buffer) {
 }
 
 // Not sure if this will be useful or not, but kept it anyways
-void VGA_Screen::draw_line(alt_up_pixel_buffer_dma_dev* pixel_buffer,
-		int x_0, int x_1, int y_0, int y_1, int color) {
-	alt_up_pixel_buffer_dma_draw_line(pixel_buffer, x_0, y_0, x_1, y_1, color, 0);
+void VGA_Screen::draw_line(alt_up_pixel_buffer_dma_dev* pixel_buffer, int x_0,
+		int x_1, int y_0, int y_1, int color) {
+	alt_up_pixel_buffer_dma_draw_line(pixel_buffer, x_0, y_0, x_1, y_1, color,
+			0);
 }
 
 //
@@ -271,6 +272,14 @@ void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
 	}
 }
 
+void VGA_Screen::draw_speed_powerups(std::vector<int> &powerups) {
+
+	for (int i = 0; i < powerups.size(); i += 2) {
+		printf("x= %i, y= %i \n", powerups[i], powerups[i+1]);
+		this->draw_image_from_bitmap(powerups[i], powerups[i+1], sd_card.speed_powerup_array);
+	}
+
+}
 // Draws bitmap from bitmap array, specify top right pixel.
 void VGA_Screen::draw_bitmap(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 		short int bitmap[20][20], int x_0, int y_0) {
@@ -283,6 +292,7 @@ void VGA_Screen::draw_bitmap(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 		}
 	}
 }
-void VGA_Screen::refresh_player(int x, int y){
+
+void VGA_Screen::refresh_player(int x, int y) {
 	this->draw_image_from_bitmap(x, y, this->sd_card.flame_array);
 }

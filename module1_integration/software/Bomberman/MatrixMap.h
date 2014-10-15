@@ -37,6 +37,8 @@ class MatrixMap{//creates matrix representation of map
 		char get_cord(int x, int y);
 		void check_explosion(int x, int y, VGA_Screen& vga);
 		std::vector<int> check_damaged_blocks(int x, int y, int range, std::vector<int> &damaged_blocks);
+
+		std::vector<int> powerups;
 };
 
 #endif /* MATRIXMAP_H_ */
