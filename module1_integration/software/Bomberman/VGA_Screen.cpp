@@ -276,10 +276,10 @@ void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
 }
 
 void VGA_Screen::draw_speed_powerups(std::vector<int> &powerups) {
-
 	for (int i = 0; i < powerups.size(); i += 2) {
-		printf("x= %i, y= %i \n", powerups[i], powerups[i+1]);
-		this->draw_image_from_bitmap(powerups[i], powerups[i+1], sd_card.speed_powerup_array);
+		if (powerups[i]>=0){
+			this->draw_image_from_bitmap(powerups[i], powerups[i+1], sd_card.speed_powerup_array);
+		}
 	}
 
 }
@@ -317,7 +317,7 @@ string number_to_string(int number){
 			return "5";
 			break;
 		default:
-			return "5";
+			return "-";
 	}
 }
 

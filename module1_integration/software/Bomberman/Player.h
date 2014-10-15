@@ -45,6 +45,7 @@ private:
 	void move_down();
 	void life_up();
 
+
 	alt_up_parallel_port_dev* parallel_port_dev;
 
 public:
@@ -57,7 +58,7 @@ public:
 	int get_y_cord();
 	int get_old_x_cord();
 	int get_old_y_cord();
-	void move(char direction, MatrixMap& m);
+	bool move(char direction, MatrixMap& m, unsigned long rand_seed); // return true if power up
 	void life_down();
 	bool check_damage(std::vector<int> &damaged_blocks);
 	void place_bomb(MatrixMap& m);

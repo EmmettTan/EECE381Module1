@@ -11,22 +11,23 @@
 Bomb::Bomb(){
 	active = false;
 	timer = 0;
+	explosion_range = 1;
 
 	in_explosion = false;
 	explosion_animation_timer = 0;
+
 }
 
 void Bomb::place_bomb(int x_cord, int y_cord){
 	if(!active){
 		this->x_cord = x_cord;
 		this->y_cord = y_cord;
-		explosion_range = 1;
 		timer = 0;
 		active = true;
-		printf("BOMB PLACED\n");
+		//printf("BOMB PLACED\n");
 	}
 	else{
-		printf("CAN'T PLACE BOMB\n");
+		//printf("CAN'T PLACE BOMB\n");
 	}
 }
 
@@ -82,4 +83,10 @@ int Bomb::get_y_cord(){
 
 int Bomb::get_explosion_range(){
 	return explosion_range;
+}
+
+void Bomb::power_up_range(){
+	if (explosion_range < 5){
+		explosion_range++;
+	}
 }

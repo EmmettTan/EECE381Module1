@@ -65,7 +65,9 @@
 			return STAND;
 		}
 
-	void Player::move(char direction, MatrixMap& m){//moves in direction pressed if legal
+
+
+	bool Player::move(char direction, MatrixMap& m, unsigned long rand_seed){//moves in direction pressed if legal
 		//checks matrix map for x's marked as legal areas
 			x_old_cord = x_cord;
 			y_old_cord = y_cord;
@@ -77,6 +79,38 @@
 					move_right();
 			else if(direction == LEFT && m.get_cord(x_cord-1, y_cord)=='x' && x_cord>0)
 					move_left();
+
+			// checks for power up
+			srand(rand_seed);
+			for (int i=0; i<m.powerups.size(); i+=2){
+				if (x_cord == m.powerups[i] && y_cord == m.powerups[i+1]){
+					m.powerups[i] = -10;
+					m.powerups[i+1] = -10;
+					int rand_number = rand()%10;
+					if (rand_number%2==1){
+						printf("POWER UP: %d RANGE++\n", rand_number);
+						bomb.power_up_range();
+					}
+					else if(rand_number!=0){
+						printf("POWER UP: %d BOMB++\n", rand_number);
+						if (num_bombs < 5){
+							num_bombs++;
+						}
+					}
+					else{
+						printf("POWER UP: %d LIFE++\n", rand_number);
+						if (life < 5){
+							life++;
+						}
+					}
+					for (int j=0; j<m.powerups.size(); j+=2){
+						printf("x: %d, y:%d\n", m.powerups[j], m.powerups[j+1]);
+					}
+					return true;
+				}
+			}
+
+			return false;
 	}
 
 	//move functions increment or decrement x or y coordinates

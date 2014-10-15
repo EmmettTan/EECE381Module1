@@ -89,17 +89,17 @@ void MatrixMap::check_explosion(int x, int y, VGA_Screen& vga) {
 	this->print_matrix();
 }
 
-std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range,
-		std::vector<int> &damaged_blocks) {
+std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::vector<int> &damaged_blocks, unsigned long rand_seed) {
 	damaged_blocks.clear();
 	//this->powerups.clear();
+	srand(rand_seed);
 
 	for (int i = x - 1; i >= x - range; i--) {
 		if (i >= 0 && (map[i][y] == BOX || map[i][y] == BOMB)) {
 			damaged_blocks.push_back(i);
 			damaged_blocks.push_back(y);
 			if (map[i][y] == BOX) {
-				int powerup_rand = (0);
+				int powerup_rand = rand()%4;
 				if (powerup_rand == 0) {
 					powerups.push_back(i);
 					powerups.push_back(y);
@@ -120,7 +120,7 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range,
 			damaged_blocks.push_back(i);
 			damaged_blocks.push_back(y);
 			if (map[i][y] == BOX) {
-				int powerup_rand = (0);
+				int powerup_rand = rand()%4;
 				if (powerup_rand == 0) {
 					powerups.push_back(i);
 					powerups.push_back(y);
@@ -141,7 +141,7 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range,
 			damaged_blocks.push_back(x);
 			damaged_blocks.push_back(i);
 			if (map[x][i] == BOX) {
-				int powerup_rand = (0);
+				int powerup_rand = rand()%4;
 				if (powerup_rand == 0) {
 					powerups.push_back(x);
 					powerups.push_back(i);
@@ -162,7 +162,7 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range,
 			damaged_blocks.push_back(x);
 			damaged_blocks.push_back(i);
 			if (map[x][i] == BOX) {
-				int powerup_rand = (0);
+				int powerup_rand = rand()%4;
 				if (powerup_rand == 0) {
 					powerups.push_back(x);
 					powerups.push_back(i);

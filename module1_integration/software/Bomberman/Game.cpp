@@ -69,7 +69,7 @@ void Game::match_start() {
 	player2.init(10,10);
 	matrix_map.powerups.clear();
 	matrix_map.gen_map(game_audio.rand());
-	printf("RAND: %lu", game_audio.rand());
+
 	this->vga_screen.clear_characters();
 	this->draw_map_and_player();
 	vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
@@ -107,7 +107,7 @@ void Game::match_start() {
 			}
 			break;
 		}
-		usleep(30000);
+		usleep(100000);
 	}
 }
 
@@ -152,19 +152,23 @@ void Game::game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 
 void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 		VGA_Screen &vga_screen) {
-	player1.move(player1.get_direction(), matrix_map);
+	if (player1.move(player1.get_direction(), matrix_map, game_audio.rand())){
+		vga_screen.update_player_status = true;
+	}
 	player1.place_bomb(matrix_map);
-
 	player1.bomb.increment_timer();
+
 	//must implement keyboard for this
-	player2.move(player2.get_direction(), matrix_map);
+	if(player2.move(player2.get_direction(), matrix_map, game_audio.rand())){
+		vga_screen.update_player_status = true;
+	}
 	player2.place_bomb(matrix_map);
 	player2.bomb.increment_timer();
 
 	if (player1.bomb.exploded()) {
 		matrix_map.check_damaged_blocks(player1.bomb.get_x_cord(),
 				player1.bomb.get_y_cord(), player1.bomb.get_explosion_range(),
-				player1.bomb.damaged_blocks);
+				player1.bomb.damaged_blocks, game_audio.rand());
 		if (player1.check_damage(player1.bomb.damaged_blocks)){
 			vga_screen.update_player_status = true;
 		}
@@ -175,7 +179,7 @@ void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 	if (player2.bomb.exploded()) {
 		matrix_map.check_damaged_blocks(player2.bomb.get_x_cord(),
 				player2.bomb.get_y_cord(), player2.bomb.get_explosion_range(),
-				player2.bomb.damaged_blocks);
+				player2.bomb.damaged_blocks, game_audio.rand());
 		if(player1.check_damage(player2.bomb.damaged_blocks)){
 			vga_screen.update_player_status = true;
 		}

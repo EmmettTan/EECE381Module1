@@ -24,7 +24,7 @@ class Bomb{
 		int timer;
 		int x_cord;
 		int y_cord;
-		int explosion_range; // MIN 2, MAX 5
+		int explosion_range; // MIN 1, MAX 5
 
 		int explosion_animation_timer;
 		bool in_explosion;
@@ -38,6 +38,7 @@ class Bomb{
 		void increment_timer();
 		int get_explosion_range();
 		std::vector<int> damaged_blocks;
+		void power_up_range();
 
 		bool isExploding();
 		bool finishedExploding();
