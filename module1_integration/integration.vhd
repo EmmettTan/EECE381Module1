@@ -36,7 +36,19 @@ ENTITY integration IS
 		SRAM_UB_N	:	OUT	STD_LOGIC;
 		SRAM_CE_N	:	OUT	STD_LOGIC;
 		SRAM_OE_N	:	OUT	STD_LOGIC;
-		SRAM_WE_N	:	OUT	STD_LOGIC
+		SRAM_WE_N	:	OUT	STD_LOGIC;
+		
+		--AUDIO--
+		I2C_SDAT : inout std_logic;
+		I2C_SCLK : out   std_logic;
+		AUD_XCK:  out   std_logic; 
+		CLOCK_27: in    std_logic;
+		AUD_ADCDAT        : in    std_logic;             -- ADCDAT
+		AUD_ADCLRCK       : in    std_logic;             -- ADCLRCK
+      AUD_BCLK          : in    std_logic;             -- BCLK
+      AUD_DACDAT        : out   std_logic;                                        -- DACDAT
+      AUD_DACLRCK       : in    std_logic    
+		
 			);
    END integration;
 
@@ -75,7 +87,17 @@ ARCHITECTURE Structure OF integration IS
             sd_card_ports_b_SD_cmd   : inout std_logic;                     		              -- b_SD_cmd
             sd_card_ports_b_SD_dat   : inout std_logic;                     		              -- b_SD_dat
             sd_card_ports_b_SD_dat3  : inout std_logic;                     			 	        -- b_SD_dat3
-            sd_card_ports_o_SD_clock : out   std_logic                                         -- o_SD_clock
+            sd_card_ports_o_SD_clock : out   std_logic;
+				
+				audio_0_external_ADCDAT        : in    std_logic;             -- ADCDAT
+				audio_0_external_ADCLRCK       : in    std_logic;             -- ADCLRCK
+				audio_0_external_BCLK          : in    std_logic;             -- BCLK
+				audio_0_external_DACDAT        : out   std_logic;                                        -- DACDAT
+				audio_0_external_DACLRCK       : in    std_logic;             -- DACLRCK
+				audio_and_video_interface_SDAT : inout std_logic;             -- SDAT
+				audio_and_video_interface_SCLK : out   std_logic;                                         -- SCLK
+				clocks_audio_clk_clk           : out   std_logic;                                        -- clk
+				clocks_clk_in_secondary_clk    : in    std_logic                     := 'X'              -- clk
         );
    END COMPONENT;
 
@@ -127,7 +149,17 @@ ARCHITECTURE Structure OF integration IS
 			sd_card_ports_b_SD_cmd => SD_CMD,
 			sd_card_ports_b_SD_dat => SD_DAT,
 			sd_card_ports_b_SD_dat3 => SD_DAT3,
-			sd_card_ports_o_SD_clock => SD_CLK
+			sd_card_ports_o_SD_clock => SD_CLK,
+			
+			audio_0_external_ADCDAT  =>  AUD_ADCDAT,
+			audio_0_external_ADCLRCK => AUD_ADCLRCK,
+			audio_0_external_BCLK    => AUD_BCLK,
+			audio_0_external_DACDAT  => AUD_DACDAT,
+			audio_0_external_DACLRCK => AUD_DACLRCK,
+			audio_and_video_interface_SDAT => I2C_SDAT,
+			audio_and_video_interface_SCLK => I2C_SCLK,
+			clocks_audio_clk_clk    => AUD_XCK,       
+			clocks_clk_in_secondary_clk => CLOCK_27
 			);
 			
 		

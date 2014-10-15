@@ -19,6 +19,7 @@ void Game::init() {
 	this->vga_screen.init(sd_card);
 	this->vga_screen.clear_screen(vga_screen.pixel_buffer);
 	this->vga_screen.clear_characters();
+	this->game_audio.load_audio();
 }
 
 void Game::draw_map_and_player() {

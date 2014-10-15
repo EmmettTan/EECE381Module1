@@ -25,6 +25,7 @@
 #include "SD_Card.h"
 #include <string>
 #include <sstream>
+#include "Audio.h"
 
 class Game {
 public:
@@ -33,6 +34,7 @@ public:
 	MatrixMap matrix_map;
 	VGA_Screen vga_screen;
 	SD_Card sd_card;
+	Audio game_audio;
 
 	Game();
 

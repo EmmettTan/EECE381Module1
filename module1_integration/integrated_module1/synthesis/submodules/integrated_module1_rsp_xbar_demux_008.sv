@@ -28,8 +28,8 @@
 // ------------------------------------------
 // Generation parameters:
 //   output_name:         integrated_module1_rsp_xbar_demux_008
-//   ST_DATA_W:           80
-//   ST_CHANNEL_W:        14
+//   ST_DATA_W:           82
+//   ST_CHANNEL_W:        17
 //   NUM_OUTPUTS:         1
 //   VALID_WIDTH:         1
 // ------------------------------------------
@@ -46,8 +46,8 @@ module integrated_module1_rsp_xbar_demux_008
     // Sink
     // -------------------
     input  [1-1      : 0]   sink_valid,
-    input  [80-1    : 0]   sink_data, // ST_DATA_W=80
-    input  [14-1 : 0]   sink_channel, // ST_CHANNEL_W=14
+    input  [82-1    : 0]   sink_data, // ST_DATA_W=82
+    input  [17-1 : 0]   sink_channel, // ST_CHANNEL_W=17
     input                         sink_startofpacket,
     input                         sink_endofpacket,
     output                        sink_ready,
@@ -56,8 +56,8 @@ module integrated_module1_rsp_xbar_demux_008
     // Sources 
     // -------------------
     output reg                      src0_valid,
-    output reg [80-1    : 0] src0_data, // ST_DATA_W=80
-    output reg [14-1 : 0] src0_channel, // ST_CHANNEL_W=14
+    output reg [82-1    : 0] src0_data, // ST_DATA_W=82
+    output reg [17-1 : 0] src0_channel, // ST_CHANNEL_W=17
     output reg                      src0_startofpacket,
     output reg                      src0_endofpacket,
     input                           src0_ready,
@@ -94,7 +94,7 @@ module integrated_module1_rsp_xbar_demux_008
     // -------------------
     assign ready_vector[0] = src0_ready;
 
-    assign sink_ready = |(sink_channel & {{13{1'b0}},{ready_vector[NUM_OUTPUTS - 1 : 0]}});
+    assign sink_ready = |(sink_channel & {{16{1'b0}},{ready_vector[NUM_OUTPUTS - 1 : 0]}});
 
 endmodule
 

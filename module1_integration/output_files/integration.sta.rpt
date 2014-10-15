@@ -1,5 +1,5 @@
 TimeQuest Timing Analyzer report for integration
-Tue Sep 30 18:24:31 2014
+Tue Oct 14 16:28:01 2014
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -87,8 +87,8 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-----------------------------------------------------------------------------+--------+--------------------------+
 ; SDC File Path                                                               ; Status ; Read at                  ;
 +-----------------------------------------------------------------------------+--------+--------------------------+
-; integrated_module1/synthesis/submodules/altera_reset_controller.sdc         ; OK     ; Tue Sep 30 18:24:30 2014 ;
-; integrated_module1/synthesis/submodules/integrated_module1_nios2_qsys_0.sdc ; OK     ; Tue Sep 30 18:24:30 2014 ;
+; integrated_module1/synthesis/submodules/altera_reset_controller.sdc         ; OK     ; Tue Oct 14 16:27:59 2014 ;
+; integrated_module1/synthesis/submodules/integrated_module1_nios2_qsys_0.sdc ; OK     ; Tue Oct 14 16:27:59 2014 ;
 +-----------------------------------------------------------------------------+--------+--------------------------+
 
 
@@ -154,6 +154,7 @@ No paths to report.
 +------------+-------------+-------+-------+-------+-------+
 ; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
 +------------+-------------+-------+-------+-------+-------+
+; CLOCK_27   ; AUD_XCK     ; 2.917 ;       ;       ; 2.917 ;
 ; CLOCK_50   ; DRAM_CLK    ; 0.868 ;       ;       ; 0.868 ;
 ; CLOCK_50   ; VGA_CLK     ;       ; 2.938 ; 2.938 ;       ;
 +------------+-------------+-------+-------+-------+-------+
@@ -164,6 +165,7 @@ No paths to report.
 +------------+-------------+-------+-------+-------+-------+
 ; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
 +------------+-------------+-------+-------+-------+-------+
+; CLOCK_27   ; AUD_XCK     ; 2.917 ;       ;       ; 2.917 ;
 ; CLOCK_50   ; DRAM_CLK    ; 0.868 ;       ;       ; 0.868 ;
 ; CLOCK_50   ; VGA_CLK     ;       ; 2.938 ; 2.938 ;       ;
 +------------+-------------+-------+-------+-------+-------+
@@ -216,6 +218,7 @@ No paths to report.
 +------------+-------------+-------+-------+-------+-------+
 ; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
 +------------+-------------+-------+-------+-------+-------+
+; CLOCK_27   ; AUD_XCK     ; 1.463 ;       ;       ; 1.463 ;
 ; CLOCK_50   ; DRAM_CLK    ; 0.154 ;       ;       ; 0.154 ;
 ; CLOCK_50   ; VGA_CLK     ;       ; 1.474 ; 1.474 ;       ;
 +------------+-------------+-------+-------+-------+-------+
@@ -226,6 +229,7 @@ No paths to report.
 +------------+-------------+-------+-------+-------+-------+
 ; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
 +------------+-------------+-------+-------+-------+-------+
+; CLOCK_27   ; AUD_XCK     ; 1.463 ;       ;       ; 1.463 ;
 ; CLOCK_50   ; DRAM_CLK    ; 0.154 ;       ;       ; 0.154 ;
 ; CLOCK_50   ; VGA_CLK     ;       ; 1.474 ; 1.474 ;       ;
 +------------+-------------+-------+-------+-------+-------+
@@ -248,6 +252,7 @@ No paths to report.
 +------------+-------------+-------+-------+-------+-------+
 ; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
 +------------+-------------+-------+-------+-------+-------+
+; CLOCK_27   ; AUD_XCK     ; 2.917 ;       ;       ; 2.917 ;
 ; CLOCK_50   ; DRAM_CLK    ; 0.868 ;       ;       ; 0.868 ;
 ; CLOCK_50   ; VGA_CLK     ;       ; 2.938 ; 2.938 ;       ;
 +------------+-------------+-------+-------+-------+-------+
@@ -258,6 +263,7 @@ No paths to report.
 +------------+-------------+-------+-------+-------+-------+
 ; Input Port ; Output Port ; RR    ; RF    ; FR    ; FF    ;
 +------------+-------------+-------+-------+-------+-------+
+; CLOCK_27   ; AUD_XCK     ; 1.463 ;       ;       ; 1.463 ;
 ; CLOCK_50   ; DRAM_CLK    ; 0.154 ;       ;       ; 0.154 ;
 ; CLOCK_50   ; VGA_CLK     ;       ; 1.474 ; 1.474 ;       ;
 +------------+-------------+-------+-------+-------+-------+
@@ -288,10 +294,10 @@ No dedicated SERDES Receiver circuitry present in device or used in design
 +---------------------------------+-------+------+
 ; Illegal Clocks                  ; 0     ; 0    ;
 ; Unconstrained Clocks            ; 1     ; 1    ;
-; Unconstrained Input Ports       ; 47    ; 47   ;
-; Unconstrained Input Port Paths  ; 196   ; 196  ;
-; Unconstrained Output Ports      ; 121   ; 121  ;
-; Unconstrained Output Port Paths ; 161   ; 161  ;
+; Unconstrained Input Ports       ; 53    ; 53   ;
+; Unconstrained Input Port Paths  ; 202   ; 202  ;
+; Unconstrained Output Ports      ; 125   ; 125  ;
+; Unconstrained Output Port Paths ; 170   ; 170  ;
 +---------------------------------+-------+------+
 
 
@@ -301,13 +307,24 @@ No dedicated SERDES Receiver circuitry present in device or used in design
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Tue Sep 30 18:24:28 2014
+    Info: Processing started: Tue Oct 14 16:27:55 2014
 Info: Command: quartus_sta integration -c integration
 Info: qsta_default_script.tcl version: #1
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (21077): Low junction temperature is 0 degrees C
 Info (21077): High junction temperature is 85 degrees C
 Info (332164): Evaluating HDL-embedded SDC commands
+    Info (332165): Entity GHVD5181
+        Info (332166): set_disable_timing [get_cells -hierarchical QXXQ6833_0]
+        Info (332166): set_disable_timing [get_cells -hierarchical JEQQ5299_0]
+        Info (332166): set_disable_timing [get_cells -hierarchical JEQQ5299_1]
+        Info (332166): set_disable_timing [get_cells -hierarchical JEQQ5299_2]
+        Info (332166): set_disable_timing [get_cells -hierarchical JEQQ5299_3]
+        Info (332166): set_disable_timing [get_cells -hierarchical JEQQ5299_4]
+        Info (332166): set_disable_timing [get_cells -hierarchical JEQQ5299_5]
+        Info (332166): set_disable_timing [get_cells -hierarchical JEQQ5299_6]
+        Info (332166): set_disable_timing [get_cells -hierarchical JEQQ5299_7]
+        Info (332166): set_disable_timing [get_cells -hierarchical BITP7563_0]
     Info (332165): Entity alt_jtag_atlantic
         Info (332166): set_false_path -from [get_registers {*|alt_jtag_atlantic:*|jupdate}] -to [get_registers {*|alt_jtag_atlantic:*|jupdate1*}] 
         Info (332166): set_false_path -from [get_registers {*|alt_jtag_atlantic:*|rdata[*]}] -to [get_registers {*|alt_jtag_atlantic*|td_shift[*]}]
@@ -340,6 +357,8 @@ Info (332164): Evaluating HDL-embedded SDC commands
     Info (332165): Entity dcfifo_5oj1
         Info (332166): set_false_path -from *rdptr_g* -to *ws_dgrp|dffpipe_2v8:dffpipe20|dffe21a* 
         Info (332166): set_false_path -from *delayed_wrptr_g* -to *rs_dgwp|dffpipe_1v8:dffpipe16|dffe17a* 
+    Info (332165): Entity pzdyqx_impl
+        Info (332166): set_false_path -from [get_keepers {altera_reserved_tdi}] -to [get_keepers {pzdyqx*}]
     Info (332165): Entity sld_jtag_hub
         Info (332166): create_clock -name altera_reserved_tck [get_ports {altera_reserved_tck}] -period 10MHz   
         Info (332166): set_clock_groups -asynchronous -group {altera_reserved_tck}
@@ -350,6 +369,7 @@ Warning (332056): PLL cross checking found inconsistent PLL clock settings:
     Warning (332056): Node: NiosII|clocks|DE_Clock_Generator_System|pll|clk[0] was found missing 1 generated clock that corresponds to a base clock with a period of: 20.000
     Warning (332056): Node: NiosII|clocks|DE_Clock_Generator_System|pll|clk[1] was found missing 1 generated clock that corresponds to a base clock with a period of: 20.000
     Warning (332056): Node: NiosII|clocks|DE_Clock_Generator_System|pll|clk[2] was found missing 1 generated clock that corresponds to a base clock with a period of: 20.000
+    Warning (332056): Node: NiosII|clocks|DE_Clock_Generator_Audio|pll|clk[1] was found missing 1 generated clock that corresponds to a base clock with a period of: 37.037
 Info: Found TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
 Info: Analyzing Slow Model
 Info (332140): No fmax paths to report
@@ -368,6 +388,7 @@ Warning (332056): PLL cross checking found inconsistent PLL clock settings:
     Warning (332056): Node: NiosII|clocks|DE_Clock_Generator_System|pll|clk[0] was found missing 1 generated clock that corresponds to a base clock with a period of: 20.000
     Warning (332056): Node: NiosII|clocks|DE_Clock_Generator_System|pll|clk[1] was found missing 1 generated clock that corresponds to a base clock with a period of: 20.000
     Warning (332056): Node: NiosII|clocks|DE_Clock_Generator_System|pll|clk[2] was found missing 1 generated clock that corresponds to a base clock with a period of: 20.000
+    Warning (332056): Node: NiosII|clocks|DE_Clock_Generator_Audio|pll|clk[1] was found missing 1 generated clock that corresponds to a base clock with a period of: 37.037
 Info (332140): No Setup paths to report
 Info (332140): No Hold paths to report
 Info (332140): No Recovery paths to report
@@ -379,10 +400,10 @@ Info (332146): Worst-case minimum pulse width slack is 97.778
 Info (332001): The selected device family is not supported by the report_metastability command.
 Info (332102): Design is not fully constrained for setup requirements
 Info (332102): Design is not fully constrained for hold requirements
-Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 11 warnings
-    Info: Peak virtual memory: 491 megabytes
-    Info: Processing ended: Tue Sep 30 18:24:31 2014
-    Info: Elapsed time: 00:00:03
-    Info: Total CPU time (on all processors): 00:00:03
+Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 13 warnings
+    Info: Peak virtual memory: 536 megabytes
+    Info: Processing ended: Tue Oct 14 16:28:01 2014
+    Info: Elapsed time: 00:00:06
+    Info: Total CPU time (on all processors): 00:00:05
 
 

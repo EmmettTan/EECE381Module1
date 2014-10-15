@@ -47,23 +47,23 @@ module integrated_module1_addr_router_default_decode
      parameter DEFAULT_CHANNEL = 2,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
-               DEFAULT_DESTID = 9 
+               DEFAULT_DESTID = 12 
    )
-  (output [96 - 93 : 0] default_destination_id,
-   output [14-1 : 0] default_wr_channel,
-   output [14-1 : 0] default_rd_channel,
-   output [14-1 : 0] default_src_channel
+  (output [98 - 94 : 0] default_destination_id,
+   output [17-1 : 0] default_wr_channel,
+   output [17-1 : 0] default_rd_channel,
+   output [17-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
-    DEFAULT_DESTID[96 - 93 : 0];
+    DEFAULT_DESTID[98 - 94 : 0];
 
   generate begin : default_decode
     if (DEFAULT_CHANNEL == -1) begin
       assign default_src_channel = '0;
     end
     else begin
-      assign default_src_channel = 14'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 17'b1 << DEFAULT_CHANNEL;
     end
   end
   endgenerate
@@ -74,8 +74,8 @@ module integrated_module1_addr_router_default_decode
       assign default_rd_channel = '0;
     end
     else begin
-      assign default_wr_channel = 14'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 14'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 17'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 17'b1 << DEFAULT_RD_CHANNEL;
     end
   end
   endgenerate
@@ -95,7 +95,7 @@ module integrated_module1_addr_router
     // Command Sink (Input)
     // -------------------
     input                       sink_valid,
-    input  [107-1 : 0]    sink_data,
+    input  [109-1 : 0]    sink_data,
     input                       sink_startofpacket,
     input                       sink_endofpacket,
     output                      sink_ready,
@@ -104,8 +104,8 @@ module integrated_module1_addr_router
     // Command Source (Output)
     // -------------------
     output                          src_valid,
-    output reg [107-1    : 0] src_data,
-    output reg [14-1 : 0] src_channel,
+    output reg [109-1    : 0] src_data,
+    output reg [17-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -116,12 +116,12 @@ module integrated_module1_addr_router
     // -------------------------------------------------------
     localparam PKT_ADDR_H = 67;
     localparam PKT_ADDR_L = 36;
-    localparam PKT_DEST_ID_H = 96;
-    localparam PKT_DEST_ID_L = 93;
-    localparam PKT_PROTECTION_H = 100;
-    localparam PKT_PROTECTION_L = 98;
-    localparam ST_DATA_W = 107;
-    localparam ST_CHANNEL_W = 14;
+    localparam PKT_DEST_ID_H = 98;
+    localparam PKT_DEST_ID_L = 94;
+    localparam PKT_PROTECTION_H = 102;
+    localparam PKT_PROTECTION_L = 100;
+    localparam ST_DATA_W = 109;
+    localparam ST_CHANNEL_W = 17;
     localparam DECODER_TYPE = 0;
 
     localparam PKT_TRANS_WRITE = 70;
@@ -165,7 +165,7 @@ module integrated_module1_addr_router
     assign src_endofpacket   = sink_endofpacket;
 
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [14-1 : 0] default_src_channel;
+    wire [17-1 : 0] default_src_channel;
 
 
 
@@ -190,26 +190,26 @@ module integrated_module1_addr_router
 
     // ( 0x0 .. 0x1000 )
     if ( {address[RG:PAD0],{PAD0{1'b0}}} == 25'h0   ) begin
-            src_channel = 14'b0010;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 5;
+            src_channel = 17'b0010;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 7;
     end
 
     // ( 0x1800 .. 0x2000 )
     if ( {address[RG:PAD1],{PAD1{1'b0}}} == 25'h1800   ) begin
-            src_channel = 14'b0001;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 4;
+            src_channel = 17'b0001;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 6;
     end
 
     // ( 0x2100 .. 0x2120 )
     if ( {address[RG:PAD2],{PAD2{1'b0}}} == 25'h2100   ) begin
-            src_channel = 14'b1000;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 8;
+            src_channel = 17'b1000;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 10;
     end
 
     // ( 0x1000000 .. 0x1800000 )
     if ( {address[RG:PAD3],{PAD3{1'b0}}} == 25'h1000000   ) begin
-            src_channel = 14'b0100;
-            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 9;
+            src_channel = 17'b0100;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 12;
     end
 
 end
