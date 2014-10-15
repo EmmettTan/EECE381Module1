@@ -10,6 +10,7 @@
 
 MatrixMap::MatrixMap() { //contructor dynamically initializes and generates map
 
+	srand(time(NULL));
 	//char m = new map[SIZE][SIZE];
 	gen_map();
 
@@ -85,19 +86,27 @@ void MatrixMap::check_explosion(int x, int y, VGA_Screen& vga) {
 	this->print_matrix();
 }
 
-std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::vector<int> &damaged_blocks) {
+std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range,
+		std::vector<int> &damaged_blocks) {
 	damaged_blocks.clear();
+	//this->powerups.clear();
 
 	for (int i = x - 1; i >= x - range; i--) {
 		if (i >= 0 && (map[i][y] == BOX || map[i][y] == BOMB)) {
-			map[i][y] = PATH;
 			damaged_blocks.push_back(i);
 			damaged_blocks.push_back(y);
+			if (map[i][y] == BOX) {
+				int powerup_rand = (0);
+				if (powerup_rand == 0) {
+					powerups.push_back(i);
+					powerups.push_back(y);
+				}
+			}
+			map[i][y] = PATH;
 			break;
 		} else if (i < 0 || map[i][y] == BLOCK) {
 			break;
-		}
-		else if (map[i][y] == PATH){
+		} else if (map[i][y] == PATH) {
 			damaged_blocks.push_back(i);
 			damaged_blocks.push_back(y);
 		}
@@ -105,14 +114,20 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::v
 
 	for (int i = x + 1; i <= x + range; i++) {
 		if (i < 11 && (map[i][y] == BOX || map[i][y] == BOMB)) {
-			map[i][y] = PATH;
 			damaged_blocks.push_back(i);
 			damaged_blocks.push_back(y);
+			if (map[i][y] == BOX) {
+				int powerup_rand = (0);
+				if (powerup_rand == 0) {
+					powerups.push_back(i);
+					powerups.push_back(y);
+				}
+			}
+			map[i][y] = PATH;
 			break;
-		} else if (i>=11 || map[i][y] == BLOCK) {
+		} else if (i >= 11 || map[i][y] == BLOCK) {
 			break;
-		}
-		else if (map[i][y] == PATH){
+		} else if (map[i][y] == PATH) {
 			damaged_blocks.push_back(i);
 			damaged_blocks.push_back(y);
 		}
@@ -120,14 +135,20 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::v
 
 	for (int i = y - 1; i >= y - range; i--) {
 		if (i >= 0 && (map[x][i] == BOX || map[x][i] == BOMB)) {
-			map[x][i] = PATH;
 			damaged_blocks.push_back(x);
 			damaged_blocks.push_back(i);
+			if (map[x][i] == BOX) {
+				int powerup_rand = (0);
+				if (powerup_rand == 0) {
+					powerups.push_back(x);
+					powerups.push_back(i);
+				}
+			}
+			map[x][i] = PATH;
 			break;
 		} else if (i < 0 || map[x][i] == BLOCK) {
 			break;
-		}
-		else if (map[x][i] == PATH){
+		} else if (map[x][i] == PATH) {
 			damaged_blocks.push_back(x);
 			damaged_blocks.push_back(i);
 		}
@@ -135,14 +156,20 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::v
 
 	for (int i = y + 1; i <= y + range; i++) {
 		if (i < 11 && (map[x][i] == BOX || map[x][i] == BOMB)) {
-			map[x][i] = PATH;
 			damaged_blocks.push_back(x);
 			damaged_blocks.push_back(i);
+			if (map[x][i] == BOX) {
+				int powerup_rand = (0);
+				if (powerup_rand == 0) {
+					powerups.push_back(x);
+					powerups.push_back(i);
+				}
+			}
+			map[x][i] = PATH;
 			break;
 		} else if (i >= 11 || map[x][i] == BLOCK) {
 			break;
-		}
-		else if (map[x][i] == PATH){
+		} else if (map[x][i] == PATH) {
 			damaged_blocks.push_back(x);
 			damaged_blocks.push_back(i);
 		}

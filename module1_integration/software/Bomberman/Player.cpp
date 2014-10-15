@@ -103,9 +103,9 @@
 
 	void Player::life_down(){
 		life--;
-		printf("LIFE DOWN!");
+		printf("LIFE DOWN! \n");
 		if(life == 0){
-			printf("PLAYER HAS DIED");
+			printf("PLAYER HAS DIED \n");
 		}
 	}
 

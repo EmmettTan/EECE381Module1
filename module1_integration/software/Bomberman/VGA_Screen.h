@@ -44,6 +44,8 @@ public:
 	void draw_box_from_coordinate(int x, int y, char c);
 	void erase_and_redraw_player(int old_x, int old_y, int new_x, int new_y);
 
+	void draw_speed_powerups(std::vector<int> &powerups);
+
 	// MAP matrix stuff
 	//void draw_map_from_array(MatrixMap& m_map);
 	void draw_map_from_array(char m_map[11][11]);
