@@ -8,7 +8,7 @@
  */
 #include "Keyboard.h"
 #include "altera_up_avalon_ps2.h"
-#include "altera_up_ps2_keyboard.h"
+#include "altera_up_ps2_keyboard2.h"
 
 Keyboard::Keyboard() {
 	printf("Initializing ps2 buffer \n");
@@ -29,11 +29,9 @@ void Keyboard::init() {
 	if (this->ps2_buffer->device_type == PS2_MOUSE) {
 		printf("Error Initializing ps2 buffer. \n");
 		return;
-	}
-	else if (this->ps2_buffer->device_type == PS2_KEYBOARD) {
+	} else if (this->ps2_buffer->device_type == PS2_KEYBOARD) {
 		printf("Initialized as Keyboard...\n");
-	}
-	else if (this->ps2_buffer->device_type == PS2_UNKNOWN) {
+	} else if (this->ps2_buffer->device_type == PS2_UNKNOWN) {
 		printf("Initialized as Unknown...\n");
 	}
 }
@@ -44,11 +42,45 @@ void Keyboard::readkey(KB_CODE_TYPE code, alt_u8 buffer, char asci,
 	tempdecode = decode_scancode(ps2_buffer, &code, &buffer, &asci);
 	if (tempdecode == 0) {
 		//printf("test\n");
-		printf("%s \n", &this->buffer);
+		if (code == 0x1) {
+			//printf("%hhx \n", buffer);
+
+			//	printf("%x \n", code);
+			if (buffer == 0x1d) {
+				printf("W is pressed \n");
+			}
+			if (buffer == 0x1b) {
+				printf("S is pressed \n");
+			}
+			if (buffer == 0x1c) {
+				printf("A is pressed \n");
+			}
+			if (buffer == 0x23) {
+				printf("D is pressed \n");
+			}
+			if (buffer == 0x32) {
+				printf("B is pressed \n");
+			}
+			if (buffer == 0x75) {
+				printf("8(up) is pressed \n");
+			}
+			if (buffer == 0x6b) {
+				printf("4(left) is pressed \n");
+			}
+			if (buffer == 0x74) {
+				printf("6(right) is pressed \n");
+			}
+			if (buffer == 0x72) {
+				printf("2(down) is pressed \n");
+			}
+			if (buffer == 0x70) {
+				printf("0(bomb) is pressed \n");
+			}
+		}
 	}
 }
 
-alt_u8 Keyboard::storeKey( alt_u8 buffer){
-	printf("%s \n", &this->buffer);
+alt_u8 Keyboard::storeKey(alt_u8 buffer) {
 	return buffer;
 }
+
