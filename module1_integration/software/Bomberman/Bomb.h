@@ -31,7 +31,7 @@ class Bomb{
 	public:
 		Bomb();
 		bool isActive();
-		void place_bomb(int x_cord, int y_cord);
+		bool place_bomb(int x_cord, int y_cord);
 		bool exploded();
 		int get_x_cord();
 		int get_y_cord();
@@ -39,6 +39,7 @@ class Bomb{
 		int get_explosion_range();
 		std::vector<int> damaged_blocks;
 		void power_up_range();
+		void init();
 
 		bool isExploding();
 		bool finishedExploding();

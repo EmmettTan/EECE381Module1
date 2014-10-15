@@ -18,17 +18,28 @@ Bomb::Bomb(){
 
 }
 
-void Bomb::place_bomb(int x_cord, int y_cord){
+void Bomb::init(){
+	active = false;
+	timer = 0;
+	explosion_range = 1;
+
+	in_explosion = false;
+	explosion_animation_timer = 0;
+}
+
+bool Bomb::place_bomb(int x_cord, int y_cord){ // returns true if bomb was placed
 	if(!active && !in_explosion){
 		this->x_cord = x_cord;
 		this->y_cord = y_cord;
 		timer = 0;
 		active = true;
-		//printf("BOMB PLACED\n");
+		printf("BOMB PLACED\n");
+		return true;
 	}
 	else{
-		//printf("CAN'T PLACE BOMB\n");
+		printf("CAN'T PLACE BOMB\n");
 	}
+	return false;
 }
 
 bool Bomb::exploded(){

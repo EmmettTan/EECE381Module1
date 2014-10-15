@@ -37,7 +37,6 @@ private:
 	int x_old_cord;
 	int y_old_cord;
 	int life; //3 hit until death
-	int num_bombs;
 
 	//private functions
 	void move_right();
@@ -65,7 +64,8 @@ public:
 	void place_bomb(MatrixMap& m);
 	int get_life();
 	int get_num_bombs();
-	Bomb bomb;
+	Bomb bombs[5];
+	int num_bombs;
 };
 
 #endif /* PLAYER_H_ */

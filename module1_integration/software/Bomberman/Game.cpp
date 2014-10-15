@@ -90,8 +90,8 @@ void Game::match_start() {
 	usleep(500000);
 	this->vga_screen.clear_characters();
 	usleep(500000);
-	vga_screen.print_player_info(1, player1.get_life(), player1.get_num_bombs(), player1.bomb.get_explosion_range(), 1);
-			vga_screen.print_player_info(2, player2.get_life(), player2.get_num_bombs(), player2.bomb.get_explosion_range(), 1);
+	vga_screen.print_player_info(1, player1.get_life(), player1.get_num_bombs(), player1.bombs[0].get_explosion_range(), 1);
+			vga_screen.print_player_info(2, player2.get_life(), player2.get_num_bombs(), player2.bombs[0].get_explosion_range(), 1);
 
 	while (1) {
 		this->game_logic(player1, player2, matrix_map, vga_screen);
@@ -119,34 +119,39 @@ void Game::game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 	vga_screen.erase_and_redraw_player(player2.get_old_x_cord(),
 			player2.get_old_y_cord(), player2.get_x_cord(),
 			player2.get_y_cord());
-	if (player1.bomb.isActive()) {
-		vga_screen.draw_bomb(player1.bomb.get_x_cord(),
-				player1.bomb.get_y_cord());
-	} else if (player1.bomb.isExploding()) {
-		vga_screen.draw_explosion(player1.bomb.damaged_blocks, true);
-	} else if (player1.bomb.finishedExploding()) {
-		vga_screen.draw_explosion(player1.bomb.damaged_blocks, false);
-		vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
-		vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
-		vga_screen.draw_speed_powerups(matrix_map.powerups);
+	for (int i=0; i<player1.num_bombs; i++){
+		if (player1.bombs[i].isActive()) {
+			vga_screen.draw_bomb(player1.bombs[i].get_x_cord(),
+					player1.bombs[i].get_y_cord());
+		} else if (player1.bombs[i].isExploding()) {
+			vga_screen.draw_explosion(player1.bombs[i].damaged_blocks, true);
+		} else if (player1.bombs[i].finishedExploding()) {
+			vga_screen.draw_explosion(player1.bombs[i].damaged_blocks, false);
+			vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
+			vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
+			vga_screen.draw_speed_powerups(matrix_map.powerups);
+		}
 	}
-	if (player2.bomb.isActive()) {
-		vga_screen.draw_bomb(player2.bomb.get_x_cord(),
-				player2.bomb.get_y_cord());
-	} else if (player2.bomb.isExploding()) {
-		vga_screen.draw_explosion(player2.bomb.damaged_blocks, true);
-	} else if (player2.bomb.finishedExploding()) {
-		vga_screen.draw_explosion(player2.bomb.damaged_blocks, false);
-		vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
-		vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
-		vga_screen.draw_speed_powerups(matrix_map.powerups);
-	}
-	if (vga_screen.update_player_status){
-		this->vga_screen.clear_characters();
-		vga_screen.print_player_info(1, player1.get_life(), player1.get_num_bombs(), player1.bomb.get_explosion_range(), 1);
-		vga_screen.print_player_info(2, player2.get_life(), player2.get_num_bombs(), player2.bomb.get_explosion_range(), 1);
-		printf("BOMBS: %d", player2.get_num_bombs());
-		vga_screen.update_player_status = false;
+
+	for (int i=0; i<player1.num_bombs; i++){
+		if (player2.bombs[i].isActive()) {
+			vga_screen.draw_bomb(player2.bombs[i].get_x_cord(),
+					player2.bombs[i].get_y_cord());
+		} else if (player2.bombs[i].isExploding()) {
+			vga_screen.draw_explosion(player2.bombs[i].damaged_blocks, true);
+		} else if (player2.bombs[i].finishedExploding()) {
+			vga_screen.draw_explosion(player2.bombs[i].damaged_blocks, false);
+			vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
+			vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
+			vga_screen.draw_speed_powerups(matrix_map.powerups);
+		}
+		if (vga_screen.update_player_status){
+			this->vga_screen.clear_characters();
+			vga_screen.print_player_info(1, player1.get_life(), player1.get_num_bombs(), player1.bombs[i].get_explosion_range(), 1);
+			vga_screen.print_player_info(2, player2.get_life(), player2.get_num_bombs(), player2.bombs[i].get_explosion_range(), 1);
+			printf("BOMBS: %d", player2.get_num_bombs());
+			vga_screen.update_player_status = false;
+		}
 	}
 }
 
@@ -156,39 +161,47 @@ void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 		vga_screen.update_player_status = true;
 	}
 	player1.place_bomb(matrix_map);
-	player1.bomb.increment_timer();
+	for (int i=0; i<player1.num_bombs; i++){
+		player1.bombs[i].increment_timer();
+	}
 
 	//must implement keyboard for this
 	if(player2.move(player2.get_direction(), matrix_map, game_audio.rand())){
 		vga_screen.update_player_status = true;
 	}
 	player2.place_bomb(matrix_map);
-	player2.bomb.increment_timer();
+	for (int i=0; i<player1.num_bombs; i++){
+		player2.bombs[i].increment_timer();
+	}
 
-	if (player1.bomb.exploded()) {
-		matrix_map.check_damaged_blocks(player1.bomb.get_x_cord(),
-				player1.bomb.get_y_cord(), player1.bomb.get_explosion_range(),
-				player1.bomb.damaged_blocks, game_audio.rand());
-		if (player1.check_damage(player1.bomb.damaged_blocks)){
-			vga_screen.update_player_status = true;
-		}
-		if(player2.check_damage(player1.bomb.damaged_blocks)){
-			vga_screen.update_player_status = true;
-		}
-	}
-	if (player2.bomb.exploded()) {
-		matrix_map.check_damaged_blocks(player2.bomb.get_x_cord(),
-				player2.bomb.get_y_cord(), player2.bomb.get_explosion_range(),
-				player2.bomb.damaged_blocks, game_audio.rand());
-		if(player1.check_damage(player2.bomb.damaged_blocks)){
-			vga_screen.update_player_status = true;
-		}
-		if(player2.check_damage(player2.bomb.damaged_blocks)){
-			vga_screen.update_player_status = true;
+	for (int i=0; i<player1.num_bombs; i++){
+		if (player1.bombs[i].exploded()) {
+			matrix_map.check_damaged_blocks(player1.bombs[i].get_x_cord(),
+					player1.bombs[i].get_y_cord(), player1.bombs[i].get_explosion_range(),
+					player1.bombs[i].damaged_blocks, game_audio.rand());
+			if (player1.check_damage(player1.bombs[i].damaged_blocks)){
+				vga_screen.update_player_status = true;
+			}
+			if(player2.check_damage(player1.bombs[i].damaged_blocks)){
+				vga_screen.update_player_status = true;
+			}
 		}
 	}
-	if (player1.get_life() <= 0 || player2.get_life() <=0 ){
-		game_over = true;
+	for (int i=0; i<player2.num_bombs; i++){
+		if (player2.bombs[i].exploded()) {
+			matrix_map.check_damaged_blocks(player2.bombs[i].get_x_cord(),
+					player2.bombs[i].get_y_cord(), player2.bombs[i].get_explosion_range(),
+					player2.bombs[i].damaged_blocks, game_audio.rand());
+			if(player1.check_damage(player2.bombs[i].damaged_blocks)){
+				vga_screen.update_player_status = true;
+			}
+			if(player2.check_damage(player2.bombs[i].damaged_blocks)){
+				vga_screen.update_player_status = true;
+			}
+		}
+		if (player1.get_life() <= 0 || player2.get_life() <=0 ){
+			game_over = true;
+		}
 	}
 }
 

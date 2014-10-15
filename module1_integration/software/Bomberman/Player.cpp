@@ -15,7 +15,11 @@
 		 life = 3;
 		 x_cord = 0;
 		 y_cord = 0;
-		 num_bombs = 1;
+		 num_bombs = 2;
+		 for (int i=0; i<5; i++){
+			 bombs[i].init();
+		 }
+
 		 //initialises parallel port to read from direction from keys
 		 parallel_port_dev = alt_up_parallel_port_open_dev("/dev/parallel_port_0");
 			 if (parallel_port_dev == NULL)
@@ -27,7 +31,11 @@
 		life = 3;
 		x_cord=x;
 		y_cord=y;
-		num_bombs = 1;
+		num_bombs = 2;
+		for (int i=0; i<5; i++){
+			 bombs[i].init();
+		 }
+
 		parallel_port_dev = alt_up_parallel_port_open_dev("/dev/parallel_port_0");
 			 if (parallel_port_dev == NULL)
 					printf("Error: could not open Parallel Port device\n");
@@ -39,8 +47,13 @@
 		life = 3;
 		x_cord=x;
 		y_cord=y;
-		num_bombs = 1;
-		bomb.damaged_blocks.clear();
+		num_bombs = 2;
+		for (int i=0; i<5; i++){
+			 bombs[i].init();
+		 }
+		for (int i=0; i<5; i++){
+			bombs[i].damaged_blocks.clear();
+		}
 	}
 	char Player::get_direction(){//returns the direction pressed
 		unsigned int key;
@@ -89,7 +102,9 @@
 					int rand_number = rand()%10;
 					if (rand_number%2==1){
 						printf("POWER UP: %d RANGE++\n", rand_number);
-						bomb.power_up_range();
+						for (int i=0; i<5; i++){
+							bombs[i].power_up_range();
+						}
 					}
 					else if(rand_number!=0){
 						printf("POWER UP: %d BOMB++\n", rand_number);
@@ -162,10 +177,15 @@
 
 	void Player::place_bomb(MatrixMap& m){
 		if ( IORD_8DIRECT(SWITCHES, 0)%2 == 1){
-			bomb.place_bomb(x_cord, y_cord);
-			m.map[x_cord][y_cord] = BOMB;
+			for (int i=0; i<num_bombs; i++){
+				if (m.map[x_cord][y_cord] != BOMB){
+					if (bombs[i].place_bomb(x_cord, y_cord)){
+						m.map[x_cord][y_cord] = BOMB;
+						return;
+					}
+				}
+			}
 		}
-
 	}
 
 	int Player::get_life(){
