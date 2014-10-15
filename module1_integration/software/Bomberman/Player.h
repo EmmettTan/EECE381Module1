@@ -38,6 +38,7 @@ private:
 	int y_old_cord;
 	int life; //3 hit until death
 	int num_bombs;
+
 	//private functions
 	void move_right();
 	void move_left();

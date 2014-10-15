@@ -165,6 +165,7 @@
 			bomb.place_bomb(x_cord, y_cord);
 			m.map[x_cord][y_cord] = BOMB;
 		}
+
 	}
 
 	int Player::get_life(){
