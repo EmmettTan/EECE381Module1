@@ -42,53 +42,63 @@ void Keyboard::init() {
 	}
 }
 
-char Keyboard::readkey(int whichplayer) {
+char Keyboard::readkey() {
 	int tempdecode;
 	tempdecode = decode_scancode(ps2_buffer, &code, &buffer, &asci);
+
 	if (tempdecode == 0) {
 		//printf("test\n");
-
-		//printf("%hhx \n", buffer);
-		if (whichplayer == 1) {
-			if (code == 0x1) {
+		//printf("test: %hhx \n", buffer);
+		if (code == 0x1) {
+			//if (whichplayer == 1) {
+				//if (code == 0x1) {
 				//	printf("%x \n", code);
 				if (buffer == 0x1d) {
-					printf("W is pressed \n");
+					//printf("W is pressed \n");
+					//printf("%hhx \n", buffer);
 					return UP;
 				} else if (buffer == 0x1b) {
-					printf("S is pressed \n");
+					//printf("S is pressed \n");
+					//printf("%hhx \n", buffer);
 					return DOWN;
 				} else if (buffer == 0x1c) {
-					printf("A is pressed \n");
+					//printf("A is pressed \n");
+					//printf("%hhx \n", buffer);
 					return LEFT;
 				} else if (buffer == 0x23) {
-					printf("D is pressed \n");
+					//printf("D is pressed \n");
+					//printf("%hhx \n", buffer);
 					return RIGHT;
 				} else if (buffer == 0x32) {
-					printf("B is pressed \n");
-
+					//printf("B is pressed \n");
+					//printf("%hhx \n", buffer);
+					return 'B';
 				}
-			}
-
-		} else if (whichplayer == 2) {
-			if (code == 0x1) {
+			//}
+			/*else if (whichplayer == 2) {
+				//if (code == 0x1) {
 				if (buffer == 0x75) {
 					printf("8(up) is pressed \n");
+					printf("%hhx \n", buffer);
 					return UP;
 				} else if (buffer == 0x6b) {
 					printf("4(left) is pressed \n");
+					printf("%hhx \n", buffer);
 					return LEFT;
 				} else if (buffer == 0x74) {
 					printf("6(right) is pressed \n");
+					printf("%hhx \n", buffer);
 					return RIGHT;
-				} else if (buffer == 0x72) {
+				} else if (buffer == 0x73) {
 					printf("2(down) is pressed \n");
+					printf("%hhx \n", buffer);
 					return DOWN;
 				} else if (buffer == 0x70) {
 					printf("0(bomb) is pressed \n");
+					printf("%hhx \n", buffer);
 				}
-			}
+			}*/
 		}
-	} else
-		return STAND;
+	}
+	return STAND;
 }

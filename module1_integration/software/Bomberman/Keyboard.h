@@ -24,7 +24,7 @@ public:
 
 	void init();
 
-	char readkey(int whichplayer);
+	char readkey();
 	alt_u8 storeKey(alt_u8 buffer);
 
 	KB_CODE_TYPE code;
