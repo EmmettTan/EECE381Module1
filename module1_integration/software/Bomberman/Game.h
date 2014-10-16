@@ -15,7 +15,7 @@
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
 #include "altera_up_avalon_video_character_buffer_with_dma.h"
 #include <time.h>
-#include "sys/alt_timestamp.h"
+#include "../Bomberman_bsp/HAL/inc/sys/alt_timestamp.h"
 #include <iostream>
 #include "MatrixMap.h"
 #include "VGA_Screen.h"
@@ -56,6 +56,8 @@ public:
 
 
 	void run();
+
+	int continuous_timer;
 };
 
 #endif /* GAME_H_ */

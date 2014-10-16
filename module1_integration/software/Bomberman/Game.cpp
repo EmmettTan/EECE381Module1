@@ -96,20 +96,27 @@ void Game::match_start() {
 			vga_screen.print_player_info(2, player2.get_life(), player2.get_num_bombs(), player2.bombs[0].get_explosion_range(), 1);
 
 	while (1) {
+		alt_timestamp_start();
 		this->game_logic(player1, player2, matrix_map, vga_screen);
 		this->game_drawing(player1, player2, matrix_map, vga_screen);
 		if (game_over){
 			game_over = false;
 			alt_up_char_buffer_string(this->vga_screen.char_buffer, "GAME OVER", 31, 25);
-			usleep(3000000);
+			while(alt_timestamp() < 3000000);
 			while (1) {
-				usleep(100000);
+				alt_timestamp_start();
+				while(alt_timestamp() < 30000);
 				if (this->player1.get_direction(1, keyboard) == 'R' || this->player2.get_direction(2, keyboard) == 'R')
 					break;
+
 			}
 			break;
 		}
-		usleep(100000);
+//		usleep(100000);
+		continuous_timer = alt_timestamp();
+		printf("\n \n \n THIS IS THE TIME STAMP %i", continuous_timer);
+		while(alt_timestamp() < 2000000);
+
 	}
 }
 
@@ -209,6 +216,7 @@ void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 
 void Game::run() {
 	while(1){
+
 		this->menu_screen();
 		this->match_start();
 	}
