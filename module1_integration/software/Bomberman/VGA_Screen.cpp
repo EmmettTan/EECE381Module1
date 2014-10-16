@@ -7,12 +7,15 @@
 
 #include "VGA_Screen.h"
 #include "SD_Card.h"
+#include <string>
 #define path_color 0xFF4500
 #define i_block_color 0xFF8F
 #define player_color 0x0000
 #define a_block_color 0x0234
 #define bomb_color 0x6969
 #define explosion_color 0xFF00
+
+using namespace std;
 
 // Constructor
 VGA_Screen::VGA_Screen() {
@@ -441,5 +444,64 @@ void VGA_Screen::refresh_player(int x, int y, int playernum) {
 		this->draw_image_from_bitmap(x, y, this->sd_card.Rback[0]);
 	else
 		this->draw_image_from_bitmap(x, y, this->sd_card.forward[0]);
+
+}
+
+
+string number_to_string(int number){
+	switch (number){
+		case 0:
+			return "0";
+			break;
+		case 1:
+			return "1";
+			break;
+		case 2:
+			return "2";
+			break;
+		case 3:
+			return "3";
+			break;
+		case 4:
+			return "4";
+			break;
+		case 5:
+			return "5";
+			break;
+		default:
+			return "5";
+	}
+}
+
+void VGA_Screen::print_player_info(int player_number, int num_lives, int num_bombs, int num_bomb_range, int num_speed){
+	int x_pos = 2; // player 1 info pos
+	string player_label = "PLAYER ";
+	string lives = "LIFE  ";
+	string bombs = "BOMBS ";
+	string range = "RANGE ";
+	string speed = "SPEED ";
+	if (player_number == 2){
+		x_pos = 70;
+	}
+
+	player_label = player_label + number_to_string(player_number);
+	lives = lives + number_to_string(num_lives);
+	bombs = bombs + number_to_string(num_bombs);
+	range = range + number_to_string(num_bomb_range);
+	speed = speed + number_to_string(num_speed);
+
+	alt_up_char_buffer_string(this->char_buffer, player_label.c_str(), x_pos, 5);
+	alt_up_char_buffer_string(this->char_buffer, lives.c_str(), x_pos, 8);
+	alt_up_char_buffer_string(this->char_buffer, bombs.c_str(), x_pos, 10);
+	alt_up_char_buffer_string(this->char_buffer, range.c_str(), x_pos, 12);
+	alt_up_char_buffer_string(this->char_buffer, speed.c_str(), x_pos, 14);
+}
+
+void VGA_Screen::draw_speed_powerups(std::vector<int> &powerups) {
+
+	for (int i = 0; i < powerups.size(); i += 2) {
+		printf("x= %i, y= %i \n", powerups[i], powerups[i+1]);
+		this->draw_image_from_bitmap(powerups[i], powerups[i+1], sd_card.speed_powerup_array);
+	}
 
 }

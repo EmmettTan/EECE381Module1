@@ -31,7 +31,7 @@ char randomize_path() {
 	}
 }
 
-void MatrixMap::gen_map(int rand_cicles) { //generates map
+void MatrixMap::gen_map(unsigned long rand_cicles) { //generates map
 	//int i, j, k;
 	srand(rand_cicles);
 	for (int i = 0; i < SIZE; i++) {

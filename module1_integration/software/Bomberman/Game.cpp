@@ -74,8 +74,8 @@ void Game::match_start() {
 
 	this->vga_screen.clear_characters();
 	this->draw_map_and_player();
-	vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
-	vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
+	vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord(), 2);
+	vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord(), 1);
 	alt_up_char_buffer_string(this->vga_screen.char_buffer, "3", 40, 25);
 	usleep(500000);
 	this->vga_screen.clear_characters();
@@ -113,8 +113,8 @@ void Game::match_start() {
 			break;
 		}
 //		usleep(100000);
-		continuous_timer = alt_timestamp();
-		printf("\n \n \n THIS IS THE TIME STAMP %i", continuous_timer);
+//		continuous_timer = alt_timestamp();
+//		printf("\n \n \n THIS IS THE TIME STAMP %i", continuous_timer);
 		while(alt_timestamp() < 2000000);
 
 	}
@@ -124,10 +124,10 @@ void Game::game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 		VGA_Screen &vga_screen) {
 	vga_screen.erase_and_redraw_player(player1.get_old_x_cord(),
 			player1.get_old_y_cord(), player1.get_x_cord(),
-			player1.get_y_cord());
+			player1.get_y_cord(), 1);
 	vga_screen.erase_and_redraw_player(player2.get_old_x_cord(),
 			player2.get_old_y_cord(), player2.get_x_cord(),
-			player2.get_y_cord());
+			player2.get_y_cord(), 2);
 	for (int i=0; i<player1.num_bombs; i++){
 		if (player1.bombs[i].isActive()) {
 			vga_screen.draw_bomb(player1.bombs[i].get_x_cord(),
@@ -136,8 +136,8 @@ void Game::game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 			vga_screen.draw_explosion(player1.bombs[i].damaged_blocks, true);
 		} else if (player1.bombs[i].finishedExploding()) {
 			vga_screen.draw_explosion(player1.bombs[i].damaged_blocks, false);
-			vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
-			vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
+			vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord(), 1);
+			vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord(), 2);
 			vga_screen.draw_speed_powerups(matrix_map.powerups);
 		}
 	}
@@ -150,8 +150,8 @@ void Game::game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 			vga_screen.draw_explosion(player2.bombs[i].damaged_blocks, true);
 		} else if (player2.bombs[i].finishedExploding()) {
 			vga_screen.draw_explosion(player2.bombs[i].damaged_blocks, false);
-			vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord());
-			vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord());
+			vga_screen.refresh_player(player1.get_x_cord(), player1.get_y_cord(),1);
+			vga_screen.refresh_player(player2.get_x_cord(), player2.get_y_cord(), 2);
 			vga_screen.draw_speed_powerups(matrix_map.powerups);
 		}
 		if (vga_screen.update_player_status){
