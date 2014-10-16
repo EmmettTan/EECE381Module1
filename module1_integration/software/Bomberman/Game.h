@@ -15,7 +15,7 @@
 #include "altera_up_avalon_video_pixel_buffer_dma.h"
 #include "altera_up_avalon_video_character_buffer_with_dma.h"
 #include <time.h>
-#include "../Bomberman_bsp/HAL/inc/sys/alt_timestamp.h"
+#include "sys/alt_timestamp.h"
 #include <iostream>
 #include "MatrixMap.h"
 #include "VGA_Screen.h"
@@ -25,8 +25,6 @@
 #include "SD_Card.h"
 #include <string>
 #include <sstream>
-#include "Audio.h"
-#include "Keyboard.h"
 
 class Game {
 public:
@@ -35,9 +33,6 @@ public:
 	MatrixMap matrix_map;
 	VGA_Screen vga_screen;
 	SD_Card sd_card;
-	Audio game_audio;
-	bool game_over;
-	Keyboard keyboard;
 
 	Game();
 
@@ -56,8 +51,6 @@ public:
 
 
 	void run();
-
-	int continuous_timer;
 };
 
 #endif /* GAME_H_ */

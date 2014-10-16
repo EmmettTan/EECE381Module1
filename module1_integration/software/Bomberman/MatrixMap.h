@@ -30,15 +30,13 @@ class MatrixMap{//creates matrix representation of map
 		char map[SIZE][SIZE];
 		MatrixMap();
 		MatrixMap(int nrows, int ncols);
-		void gen_map(int rand_cicles);
+		void gen_map();
 		void print_matrix();
 		void printrow_x();
 		void printrow_y();
 		char get_cord(int x, int y);
 		void check_explosion(int x, int y, VGA_Screen& vga);
-		std::vector<int> check_damaged_blocks(int x, int y, int range, std::vector<int> &damaged_blocks, unsigned long rand_seed);
-
-		std::vector<int> powerups;
+		std::vector<int> check_damaged_blocks(int x, int y, int range, std::vector<int> &damaged_blocks);
 };
 
 #endif /* MATRIXMAP_H_ */

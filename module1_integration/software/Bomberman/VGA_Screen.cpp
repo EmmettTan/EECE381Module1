@@ -14,15 +14,12 @@
 #define bomb_color 0x6969
 #define explosion_color 0xFF00
 
-using namespace std;
-
 // Constructor
 VGA_Screen::VGA_Screen() {
 	printf("Constructing VGA Screen \n");
 	this->pixel_buffer = init_pixel_buffer();
 
 	this->char_buffer = init_char_buffer();
-	update_player_status = false;
 }
 
 // Make sure you call this when creating a VGA_Screen object
@@ -172,7 +169,7 @@ alt_up_pixel_buffer_dma_dev* VGA_Screen::init_pixel_buffer() {
 
 alt_up_char_buffer_dev* VGA_Screen::init_char_buffer() {
 	printf("Initializing Char Buffer \n");
-	alt_up_char_buffer_dev* char_buffer;
+	alt_up_char_buffer_dev * char_buffer;
 	char_buffer = alt_up_char_buffer_open_dev(
 			"/dev/video_character_buffer_with_dma_0");
 	alt_up_char_buffer_init(char_buffer);
@@ -183,16 +180,6 @@ alt_up_char_buffer_dev* VGA_Screen::init_char_buffer() {
 void VGA_Screen::clear_characters() {
 	alt_up_char_buffer_clear(this->char_buffer);
 }
-//high level drawing stuff
-
-//taking in array
-//void VGA_Screen::draw_map_from_array(MatrixMap& m_map) {
-//	for (int i = 0; i < 11; i++) {
-//		for (int j = 0; j < 11; j++) {
-//			this->draw_box_from_coordinate(i,j,m_map.map[i][j]);
-//		}
-//	}
-//}
 
 void VGA_Screen::draw_map_from_array(char m_map[11][11]) {
 	for (int i = 0; i < 11; i++) {
@@ -209,17 +196,16 @@ void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
 	int color;
 	if (c == 'o') {
 		color = i_block_color;
-		this->draw_image_from_bitmap(x, y, this->sd_card.destr_block);
+		this->draw_image_from_bitmap(x, y, this->sd_card.solid_block);
 	} else if (c == 'x') {
 		color = path_color;
-		this->draw_boxes(this->pixel_buffer, x_scaled, x_scaled + 20, y_scaled,
-				y_scaled + 20, color);
+		this->draw_image_from_bitmap(x, y, this->sd_card.path);
 	} else if (c == 'p') {
-		color = player_color;
-		this->draw_image_from_bitmap(x, y, this->sd_card.flame_array);
+
+		this->draw_image_from_bitmap(x, y, this->sd_card.forward[0]);
 	} else if (c == 'a') {
 		color = a_block_color;
-		this->draw_image_from_bitmap(x, y, this->sd_card.solid_block);
+		this->draw_image_from_bitmap(x, y, this->sd_card.destr_block);
 	} else if (c == 'b') {
 		color = bomb_color;
 		this->draw_image_from_bitmap(x, y, this->sd_card.bomb_Bmap);
@@ -234,11 +220,174 @@ void VGA_Screen::draw_box_from_coordinate(int x, int y, char c) {
 }
 
 void VGA_Screen::erase_and_redraw_player(int old_x, int old_y, int new_x,
-		int new_y) {
+		int new_y, int playernum) {
 	if (!((old_x == new_x) && (old_y == new_y))) {
-		this->draw_box_from_coordinate(old_x, old_y, 'x');
-		this->draw_box_from_coordinate(new_x, new_y, 'p');
+		//draw_box_from_coordinate(old_x, old_y, 'x');
+		//draw_box_from_coordinate(new_x, new_y, 'p');
+		if (playernum == 2)
+			draw_player2_animation(old_x, old_y, new_x, new_y);
+		else
+			draw_player1_animation(old_x, old_y, new_x, new_y);
 	}
+
+}
+void VGA_Screen::draw_player1_animation(int old_x, int old_y, int new_x,
+		int new_y) {
+
+	if (old_x < new_x) {
+		for (int i = 0; i <= 5; i++) {
+			draw_box_from_coordinate(old_x, old_y, 'x');
+			draw_box_from_coordinate(new_x, old_y, 'x');
+
+			if (i != 5)
+				if (i % 2 == 0)
+					draw_bitmap(pixel_buffer, this->sd_card.right[0],
+							(old_x * 20) + 50 + 4 * i, old_y * 20 + 10);
+				else
+					draw_bitmap(pixel_buffer, this->sd_card.right[3],
+							(old_x * 20) + 50 + 4 * i, old_y * 20 + 10);
+			else
+				draw_bitmap(pixel_buffer, this->sd_card.right[0],
+						(old_x * 20) + 50 + 4 * i, old_y * 20 + 10);
+			usleep(20000);
+
+		}
+	} else if (old_x > new_x) {
+		for (int i = 0; i <= 5; i++) {
+
+			draw_box_from_coordinate(old_x, old_y, 'x');
+			draw_box_from_coordinate(new_x, old_y, 'x');
+			if (i != 5) {
+				if (i % 2 == 0)
+					draw_bitmap(pixel_buffer, this->sd_card.left[0],
+							(old_x * 20) + 50 - 4 * i, old_y * 20 + 10);
+				else
+					draw_bitmap(pixel_buffer, this->sd_card.left[3],
+							(old_x * 20) + 50 - 4 * i, old_y * 20 + 10);
+			} else
+				draw_bitmap(pixel_buffer, this->sd_card.left[0],
+						(old_x * 20) + 50 - 4 * i, old_y * 20 + 10);
+			usleep(20000);
+
+		}
+	} else if (old_y < new_y) {
+		for (int i = 0; i <= 5; i++) {
+			draw_box_from_coordinate(old_x, old_y, 'x');
+			draw_box_from_coordinate(old_x, new_y, 'x');
+			if (i != 5) {
+				if (i % 2 == 0)
+					draw_bitmap(pixel_buffer, this->sd_card.forward[0],
+							old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
+				else
+					draw_bitmap(pixel_buffer, this->sd_card.forward[3],
+							old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
+			} else {
+				draw_bitmap(pixel_buffer, this->sd_card.forward[0],
+						old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
+			}
+			usleep(20000);
+
+		}
+	} else if (old_y > new_y) {
+		for (int i = 0; i <= 5; i++) {
+			draw_box_from_coordinate(old_x, old_y, 'x');
+			draw_box_from_coordinate(old_x, new_y, 'x');
+			if (i != 5) {
+				if (i % 2 == 0)
+					draw_bitmap(pixel_buffer, this->sd_card.back[0],
+							old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
+				else
+					draw_bitmap(pixel_buffer, this->sd_card.back[3],
+							old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
+
+			} else {
+				draw_bitmap(pixel_buffer, this->sd_card.back[0],
+						old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
+			}
+			usleep(20000);
+
+		}
+	}
+
+}
+void VGA_Screen::draw_player2_animation(int old_x, int old_y, int new_x,
+		int new_y) {
+
+	if (old_x < new_x) {
+		for (int i = 0; i <= 5; i++) {
+			draw_box_from_coordinate(old_x, old_y, 'x');
+			draw_box_from_coordinate(new_x, old_y, 'x');
+
+			if (i != 5)
+				if (i % 2 == 0)
+					draw_bitmap(pixel_buffer, this->sd_card.Rright[0],
+							(old_x * 20) + 50 + 4 * i, old_y * 20 + 10);
+				else
+					draw_bitmap(pixel_buffer, this->sd_card.Rright[3],
+							(old_x * 20) + 50 + 4 * i, old_y * 20 + 10);
+			else
+				draw_bitmap(pixel_buffer, this->sd_card.Rright[0],
+						(old_x * 20) + 50 + 4 * i, old_y * 20 + 10);
+			usleep(20000);
+
+		}
+	} else if (old_x > new_x) {
+		for (int i = 0; i <= 5; i++) {
+
+			draw_box_from_coordinate(old_x, old_y, 'x');
+			draw_box_from_coordinate(new_x, old_y, 'x');
+			if (i != 5) {
+				if (i % 2 == 0)
+					draw_bitmap(pixel_buffer, this->sd_card.Rleft[0],
+							(old_x * 20) + 50 - 4 * i, old_y * 20 + 10);
+				else
+					draw_bitmap(pixel_buffer, this->sd_card.Rleft[3],
+							(old_x * 20) + 50 - 4 * i, old_y * 20 + 10);
+			} else
+				draw_bitmap(pixel_buffer, this->sd_card.Rleft[0],
+						(old_x * 20) + 50 - 4 * i, old_y * 20 + 10);
+			usleep(20000);
+
+		}
+	} else if (old_y < new_y) {
+		for (int i = 0; i <= 5; i++) {
+			draw_box_from_coordinate(old_x, old_y, 'x');
+			draw_box_from_coordinate(old_x, new_y, 'x');
+			if (i != 5) {
+				if (i % 2 == 0)
+					draw_bitmap(pixel_buffer, this->sd_card.Rback[0],
+							old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
+				else
+					draw_bitmap(pixel_buffer, this->sd_card.Rback[3],
+							old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
+			} else {
+				draw_bitmap(pixel_buffer, this->sd_card.Rback[0],
+						old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
+			}
+			usleep(20000);
+
+		}
+	} else if (old_y > new_y) {
+		for (int i = 0; i <= 5; i++) {
+			draw_box_from_coordinate(old_x, old_y, 'x');
+			draw_box_from_coordinate(old_x, new_y, 'x');
+			if (i != 5) {
+				if (i % 2 == 0)
+					draw_bitmap(pixel_buffer, this->sd_card.Rback[0],
+							old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
+				else
+					draw_bitmap(pixel_buffer, this->sd_card.Rback[3],
+							old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
+
+			} else {
+				draw_bitmap(pixel_buffer, this->sd_card.Rback[0],
+						old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
+			}
+			usleep(20000);
+
+		}
+	}
+
 }
 
 void VGA_Screen::draw_bomb(int x, int y) {
@@ -263,8 +412,7 @@ void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
 		bool is_explosion) {
 	if (is_explosion) {
 		for (int i = 0; i < damaged_blocks.size(); i += 2) {
-//			this->draw_box_from_coordinate(damaged_blocks[i],
-//					damaged_blocks[i + 1], 'e');
+
 			this->draw_flame(damaged_blocks[i], damaged_blocks[i + 1]);
 		}
 	} else {
@@ -275,14 +423,6 @@ void VGA_Screen::draw_explosion(std::vector<int> &damaged_blocks,
 	}
 }
 
-void VGA_Screen::draw_speed_powerups(std::vector<int> &powerups) {
-	for (int i = 0; i < powerups.size(); i += 2) {
-		if (powerups[i]>=0){
-			this->draw_image_from_bitmap(powerups[i], powerups[i+1], sd_card.speed_powerup_array);
-		}
-	}
-
-}
 // Draws bitmap from bitmap array, specify top right pixel.
 void VGA_Screen::draw_bitmap(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 		short int bitmap[20][20], int x_0, int y_0) {
@@ -296,55 +436,10 @@ void VGA_Screen::draw_bitmap(alt_up_pixel_buffer_dma_dev* pixel_buffer,
 	}
 }
 
-string number_to_string(int number){
-	switch (number){
-		case 0:
-			return "0";
-			break;
-		case 1:
-			return "1";
-			break;
-		case 2:
-			return "2";
-			break;
-		case 3:
-			return "3";
-			break;
-		case 4:
-			return "4";
-			break;
-		case 5:
-			return "5";
-			break;
-		default:
-			return "-";
-	}
-}
+void VGA_Screen::refresh_player(int x, int y, int playernum) {
+	if (playernum == 2)
+		this->draw_image_from_bitmap(x, y, this->sd_card.Rback[0]);
+	else
+		this->draw_image_from_bitmap(x, y, this->sd_card.forward[0]);
 
-void VGA_Screen::print_player_info(int player_number, int num_lives, int num_bombs, int num_bomb_range, int num_speed){
-	int x_pos = 2; // player 1 info pos
-	string player_label = "PLAYER ";
-	string lives = "LIFE  ";
-	string bombs = "BOMBS ";
-	string range = "RANGE ";
-	string speed = "SPEED ";
-	if (player_number == 2){
-		x_pos = 70;
-	}
-
-	player_label = player_label + number_to_string(player_number);
-	lives = lives + number_to_string(num_lives);
-	bombs = bombs + number_to_string(num_bombs);
-	range = range + number_to_string(num_bomb_range);
-	speed = speed + number_to_string(num_speed);
-
-	alt_up_char_buffer_string(this->char_buffer, player_label.c_str(), x_pos, 5);
-	alt_up_char_buffer_string(this->char_buffer, lives.c_str(), x_pos, 8);
-	alt_up_char_buffer_string(this->char_buffer, bombs.c_str(), x_pos, 10);
-	alt_up_char_buffer_string(this->char_buffer, range.c_str(), x_pos, 12);
-	alt_up_char_buffer_string(this->char_buffer, speed.c_str(), x_pos, 14);
-}
-
-void VGA_Screen::refresh_player(int x, int y) {
-	this->draw_image_from_bitmap(x, y, this->sd_card.flame_array);
 }
