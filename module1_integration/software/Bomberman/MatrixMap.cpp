@@ -24,7 +24,7 @@ MatrixMap::MatrixMap(int rows, int cols) { //future contructor
 }
 
 char randomize_path() {
-	if (rand() % 4 == 3) {
+	if (rand() % 2 == 0) {
 		return BOX;
 	} else {
 		return PATH;
@@ -99,7 +99,7 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::v
 			damaged_blocks.push_back(i);
 			damaged_blocks.push_back(y);
 			if (map[i][y] == BOX) {
-				int powerup_rand = rand()%4;
+				int powerup_rand = rand()%3;
 				if (powerup_rand == 0) {
 					powerups.push_back(i);
 					powerups.push_back(y);
@@ -120,7 +120,7 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::v
 			damaged_blocks.push_back(i);
 			damaged_blocks.push_back(y);
 			if (map[i][y] == BOX) {
-				int powerup_rand = rand()%4;
+				int powerup_rand = rand()%3;
 				if (powerup_rand == 0) {
 					powerups.push_back(i);
 					powerups.push_back(y);
@@ -141,7 +141,7 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::v
 			damaged_blocks.push_back(x);
 			damaged_blocks.push_back(i);
 			if (map[x][i] == BOX) {
-				int powerup_rand = rand()%4;
+				int powerup_rand = rand()%3;
 				if (powerup_rand == 0) {
 					powerups.push_back(x);
 					powerups.push_back(i);
@@ -162,7 +162,7 @@ std::vector<int> MatrixMap::check_damaged_blocks(int x, int y, int range, std::v
 			damaged_blocks.push_back(x);
 			damaged_blocks.push_back(i);
 			if (map[x][i] == BOX) {
-				int powerup_rand = rand()%4;
+				int powerup_rand = rand()%3;
 				if (powerup_rand == 0) {
 					powerups.push_back(x);
 					powerups.push_back(i);

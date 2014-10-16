@@ -38,6 +38,7 @@ private:
 	int x_old_cord;
 	int y_old_cord;
 	int life; //3 hit until death
+	bool bomb_key_pressed;
 
 	//private functions
 	void move_right();
@@ -62,7 +63,7 @@ public:
 	bool move(char direction, MatrixMap& m, unsigned long rand_seed); // return true if power up
 	void life_down();
 	bool check_damage(std::vector<int> &damaged_blocks);
-	void place_bomb(MatrixMap& m);
+	void place_bomb(int player_num, MatrixMap& m, Keyboard &keyboard);
 	int get_life();
 	int get_num_bombs();
 	Bomb bombs[5];

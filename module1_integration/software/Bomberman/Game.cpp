@@ -162,7 +162,7 @@ void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 	if (player1.move(player1.get_direction(1, keyboard), matrix_map, game_audio.rand())){
 		vga_screen.update_player_status = true;
 	}
-	player1.place_bomb(matrix_map);
+	player1.place_bomb(1, matrix_map, keyboard);
 	for (int i=0; i<player1.num_bombs; i++){
 		player1.bombs[i].increment_timer();
 	}
@@ -171,7 +171,7 @@ void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 	if(player2.move(player2.get_direction(2, keyboard), matrix_map, game_audio.rand())){
 		vga_screen.update_player_status = true;
 	}
-	player2.place_bomb(matrix_map);
+	player2.place_bomb(2, matrix_map, keyboard);
 	for (int i=0; i<player1.num_bombs; i++){
 		player2.bombs[i].increment_timer();
 	}
