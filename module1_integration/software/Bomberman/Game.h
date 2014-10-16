@@ -26,6 +26,7 @@
 #include <string>
 #include <sstream>
 #include "Audio.h"
+#include "Keyboard.h"
 
 class Game {
 public:
@@ -36,6 +37,7 @@ public:
 	SD_Card sd_card;
 	Audio game_audio;
 	bool game_over;
+	Keyboard keyboard;
 
 	Game();
 

@@ -19,6 +19,7 @@
 #include "MatrixMap.h"
 #include "Bomb.h"
 #include "VGA_Screen.h"
+#include "Keyboard.h"
 
 #define UP 'U'
 #define DOWN 'D'
@@ -53,7 +54,7 @@ public:
 	void init(int x, int y);
 	Player(int x, int y, int player_num);
 	bool validate_next_move(char direction);
-	char get_direction(); // interrupt, returns l,r,f,b
+	char get_direction(int whichplayer, Keyboard &keyboard); // interrupt, returns l,r,f,b
 	int get_x_cord();
 	int get_y_cord();
 	int get_old_x_cord();

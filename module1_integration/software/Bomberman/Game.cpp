@@ -16,7 +16,9 @@ Game::Game() :
 void Game::init() {
 	game_over =  false;
 	this->sd_card.init();
-
+	printf("*******************\n");
+	this->keyboard.init();
+	printf("*******************\n");
 	this->vga_screen.init(sd_card);
 	this->vga_screen.clear_screen(vga_screen.pixel_buffer);
 	this->vga_screen.clear_characters();
@@ -54,11 +56,11 @@ void Game::menu_screen() {
 	alt_up_char_buffer_string(this->vga_screen.char_buffer, "Toggle Sound", 34,
 			37);
 
-	while (1) {
-		usleep(100000);
-		if (this->player1.get_direction() == 'R' || this->player2.get_direction() == 'R')
-			break;
-	}
+//	while (1) {
+//		usleep(100000);
+//		if (this->player1.get_direction(1, keyboard) == 'R' || this->player2.get_direction(2, keyboard) == 'R')
+//			break;
+//	}
 
 	return;
 
@@ -102,7 +104,7 @@ void Game::match_start() {
 			usleep(3000000);
 			while (1) {
 				usleep(100000);
-				if (this->player1.get_direction() == 'R' || this->player2.get_direction() == 'R')
+				if (this->player1.get_direction(1, keyboard) == 'R' || this->player2.get_direction(2, keyboard) == 'R')
 					break;
 			}
 			break;
@@ -157,7 +159,7 @@ void Game::game_drawing(Player &player1, Player &player2, MatrixMap &matrix_map,
 
 void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 		VGA_Screen &vga_screen) {
-	if (player1.move(player1.get_direction(), matrix_map, game_audio.rand())){
+	if (player1.move(player1.get_direction(1, keyboard), matrix_map, game_audio.rand())){
 		vga_screen.update_player_status = true;
 	}
 	player1.place_bomb(matrix_map);
@@ -166,7 +168,7 @@ void Game::game_logic(Player &player1, Player &player2, MatrixMap &matrix_map,
 	}
 
 	//must implement keyboard for this
-	if(player2.move(player2.get_direction(), matrix_map, game_audio.rand())){
+	if(player2.move(player2.get_direction(2, keyboard), matrix_map, game_audio.rand())){
 		vga_screen.update_player_status = true;
 	}
 	player2.place_bomb(matrix_map);

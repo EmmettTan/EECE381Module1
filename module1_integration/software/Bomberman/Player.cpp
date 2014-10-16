@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "MatrixMap.h"
 
+
 	Player::Player(){//constructor creates player
 
 		 //initialises position and health
@@ -55,11 +56,12 @@
 			bombs[i].damaged_blocks.clear();
 		}
 	}
-	char Player::get_direction(){//returns the direction pressed
-		unsigned int key;
-		key = alt_up_parallel_port_read_data(parallel_port_dev);
 
-			if (key != 0){
+	char Player::get_direction(int whichplayer, Keyboard &keyboard){//returns the direction pressed
+		unsigned int key;
+		//key = alt_up_parallel_port_read_data(parallel_port_dev);
+		 return keyboard.readkey(whichplayer);
+			/*if (key != 0){
 				switch(key){
 					case 1:
 						return RIGHT;
@@ -76,7 +78,7 @@
 						}
 					}
 			return STAND;
-		}
+*/		}
 
 
 
