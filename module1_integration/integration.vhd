@@ -47,8 +47,11 @@ ENTITY integration IS
 		AUD_ADCLRCK       : in    std_logic;             -- ADCLRCK
       AUD_BCLK          : in    std_logic;             -- BCLK
       AUD_DACDAT        : out   std_logic;                                        -- DACDAT
-      AUD_DACLRCK       : in    std_logic    
+      AUD_DACLRCK       : in    std_logic;    
 		
+		
+		PS2_CLK : INOUT STD_LOGIC;
+		PS2_DAT : INOUT STD_LOGIC
 			);
    END integration;
 
@@ -97,7 +100,10 @@ ARCHITECTURE Structure OF integration IS
 				audio_and_video_interface_SDAT : inout std_logic;             -- SDAT
 				audio_and_video_interface_SCLK : out   std_logic;                                         -- SCLK
 				clocks_audio_clk_clk           : out   std_logic;                                        -- clk
-				clocks_clk_in_secondary_clk    : in    std_logic                     := 'X'              -- clk
+				clocks_clk_in_secondary_clk    : in    std_logic;              -- clk
+				
+				keyboard_CLK						 : inout std_logic;
+				keyboard_DAT						 : inout std_logic
         );
    END COMPONENT;
 
@@ -159,7 +165,10 @@ ARCHITECTURE Structure OF integration IS
 			audio_and_video_interface_SDAT => I2C_SDAT,
 			audio_and_video_interface_SCLK => I2C_SCLK,
 			clocks_audio_clk_clk    => AUD_XCK,       
-			clocks_clk_in_secondary_clk => CLOCK_27
+			clocks_clk_in_secondary_clk => CLOCK_27,
+			
+			keyboard_CLK => PS2_CLK,
+			keyboard_DAT => PS2_DAT
 			);
 			
 		
