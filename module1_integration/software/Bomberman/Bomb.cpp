@@ -19,16 +19,15 @@ Bomb::Bomb(){
 void Bomb::init(){
 	active = false;
 	timer = 0;
-
+	explosion_range = 1;
 	in_explosion = false;
 	explosion_animation_timer = 0;
 }
 
 bool Bomb::place_bomb(int x_cord, int y_cord){
-	if(!active){
+	if(!active && !in_explosion){
 		this->x_cord = x_cord;
 		this->y_cord = y_cord;
-		explosion_range = 1;
 		timer = 0;
 		active = true;
 		return true;

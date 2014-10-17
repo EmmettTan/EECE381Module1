@@ -15,8 +15,8 @@
 #include <time.h>
 #include <vector>
 
-#define EXPLOSION_TIME 35
-#define EXPLOSION_ANIMATION_DELAY 8
+#define EXPLOSION_TIME 70
+#define EXPLOSION_ANIMATION_DELAY 10
 
 class Bomb{
 	private:

@@ -32,6 +32,7 @@ void Game::draw_map_and_player() {
 }
 
 void Game::menu_screen() {
+	this->vga_screen.clear_characters();
 	this->vga_screen.paint_screen(vga_screen.pixel_buffer, 0x0000);
 	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 137, 182, 80, 80,
 			0xFFFF);
@@ -42,25 +43,25 @@ void Game::menu_screen() {
 	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 182, 182, 80, 100,
 			0xFFFF);
 
-	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 186, 80 + 60,
-			80 + 60, 0xFFFF);
-	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 186,
-			100 + 60, 100 + 60, 0xFFFF);
-	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 133, 80 + 60,
-			100 + 60, 0xFFFF);
-	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 186, 186, 80 + 60,
-			100 + 60, 0xFFFF);
+//	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 186, 80 + 60,
+//			80 + 60, 0xFFFF);
+//	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 186,
+//			100 + 60, 100 + 60, 0xFFFF);
+//	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 133, 133, 80 + 60,
+//			100 + 60, 0xFFFF);
+//	this->vga_screen.draw_line(this->vga_screen.pixel_buffer, 186, 186, 80 + 60,
+//			100 + 60, 0xFFFF);
 
-	alt_up_char_buffer_string(this->vga_screen.char_buffer, "Start Game", 35,
+	alt_up_char_buffer_string(this->vga_screen.char_buffer, "Bomberman!", 35,
 			22);
-	alt_up_char_buffer_string(this->vga_screen.char_buffer, "Toggle Sound", 34,
+	alt_up_char_buffer_string(this->vga_screen.char_buffer, "Press Key 0 to start", 29,
 			37);
 
-//	while (1) {
-//		usleep(100000);
-//		if (this->player1.get_direction(1, keyboard) == 'R' || this->player2.get_direction(2, keyboard) == 'R')
-//			break;
-//	}
+	while (1) {
+		usleep(100000);
+		if (this->player1.get_direction(1, keyboard) == 'R' || this->player2.get_direction(2, keyboard) == 'R')
+			break;
+	}
 
 	return;
 
@@ -99,9 +100,20 @@ void Game::match_start() {
 		alt_timestamp_start();
 		this->game_logic(player1, player2, matrix_map, vga_screen);
 		this->game_drawing(player1, player2, matrix_map, vga_screen);
+
 		if (game_over){
 			game_over = false;
-			alt_up_char_buffer_string(this->vga_screen.char_buffer, "GAME OVER", 31, 25);
+
+			alt_up_char_buffer_string(this->vga_screen.char_buffer, "GAME OVER", 35, 25);
+			if (player1.get_life() <= 0){
+				alt_up_char_buffer_string(this->vga_screen.char_buffer, "HOLY SMOKES PLAYER 1 EXPLODED!", 25, 27);
+				alt_up_char_buffer_string(this->vga_screen.char_buffer, "PLAYER 2 WINS!", 32, 29);
+			}
+			else if (player2.get_life() <= 0){
+				alt_up_char_buffer_string(this->vga_screen.char_buffer, "HOLY SMOKES PLAYER 2 EXPLODED!", 25, 27);
+								alt_up_char_buffer_string(this->vga_screen.char_buffer, "PLAYER 1 WINS!", 32, 29);
+			}
+
 			while(alt_timestamp() < 3000000);
 			while (1) {
 				alt_timestamp_start();
@@ -110,12 +122,13 @@ void Game::match_start() {
 					break;
 
 			}
+			while(alt_timestamp() < 3000000);
 			break;
 		}
 //		usleep(100000);
 //		continuous_timer = alt_timestamp();
 //		printf("\n \n \n THIS IS THE TIME STAMP %i", continuous_timer);
-		while(alt_timestamp() < 2000000);
+		while(alt_timestamp() < 1000000);
 
 	}
 }

@@ -31,7 +31,7 @@
 #define Rman2_F3 "Rman_F3.bmp"
 
 
-#define Rman2_B0 "Rman_B0.bmp"
+#define Rman2_B0 "Rman_B1.bmp"
 
 #define Rman2_B3 "Rman_B3.bmp"
 
@@ -51,7 +51,7 @@
 #define Bomb_Map "bomb2.bmp"
 #define Speed_Powerup_Bitmap "SpeedUp.bmp"
 // Powerup
-#define Speed_Powerup_Bitmap "SpeedUp.bmp"
+//#define Speed_Powerup_Bitmap "SpeedUp.bmp"
 // Flame
 #define Flame_Bitmap "b_f.bmp"
 

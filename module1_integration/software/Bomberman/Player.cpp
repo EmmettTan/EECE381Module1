@@ -64,6 +64,7 @@ char Player::get_direction(int whichplayer, Keyboard &keyboard) { //returns the 
 		char dir = keyboard.readkey();
 		if (dir == 'B'){
 			bomb_key_pressed = true;
+			return STAND;
 		}
 		else
 			return dir;
@@ -128,9 +129,9 @@ bool Player::move(char direction, MatrixMap& m, unsigned long rand_seed) { //mov
 					life++;
 				}
 			}
-			for (int j = 0; j < m.powerups.size(); j += 2) {
-				printf("x: %d, y:%d\n", m.powerups[j], m.powerups[j + 1]);
-			}
+//			for (int j = 0; j < m.powerups.size(); j += 2) {
+//				printf("x: %d, y:%d\n", m.powerups[j], m.powerups[j + 1]);
+//			}
 			return true;
 		}
 	}
@@ -183,6 +184,7 @@ bool Player::check_damage(std::vector<int> &damaged_blocks) {
 			return true;
 		}
 	}
+	return false;
 }
 
 void Player::place_bomb(int player_num, MatrixMap& m, Keyboard &keyboard) {

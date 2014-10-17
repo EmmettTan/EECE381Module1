@@ -300,7 +300,7 @@ void VGA_Screen::draw_player1_animation(int old_x, int old_y, int new_x,
 					draw_bitmap(pixel_buffer, this->sd_card.back[0],
 							old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
 				else
-					draw_bitmap(pixel_buffer, this->sd_card.back[3],
+					draw_bitmap(pixel_buffer, this->sd_card.back[0],
 							old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
 
 			} else {
@@ -358,13 +358,13 @@ void VGA_Screen::draw_player2_animation(int old_x, int old_y, int new_x,
 			draw_box_from_coordinate(old_x, new_y, 'x');
 			if (i != 5) {
 				if (i % 2 == 0)
-					draw_bitmap(pixel_buffer, this->sd_card.Rback[0],
+					draw_bitmap(pixel_buffer, this->sd_card.Rforward[0],
 							old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
 				else
-					draw_bitmap(pixel_buffer, this->sd_card.Rback[3],
+					draw_bitmap(pixel_buffer, this->sd_card.Rforward[3],
 							old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
 			} else {
-				draw_bitmap(pixel_buffer, this->sd_card.Rback[0],
+				draw_bitmap(pixel_buffer, this->sd_card.Rforward[0],
 						old_x * 20 + 50, (old_y * 20) + 10 + (4 * i));
 			}
 			usleep(20000);
@@ -379,7 +379,7 @@ void VGA_Screen::draw_player2_animation(int old_x, int old_y, int new_x,
 					draw_bitmap(pixel_buffer, this->sd_card.Rback[0],
 							old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
 				else
-					draw_bitmap(pixel_buffer, this->sd_card.Rback[3],
+					draw_bitmap(pixel_buffer, this->sd_card.Rback[0],
 							old_x * 20 + 50, (old_y * 20) + 10 - (4 * i));
 
 			} else {
@@ -448,6 +448,7 @@ void VGA_Screen::refresh_player(int x, int y, int playernum) {
 }
 
 
+
 string number_to_string(int number){
 	switch (number){
 		case 0:
@@ -469,7 +470,7 @@ string number_to_string(int number){
 			return "5";
 			break;
 		default:
-			return "5";
+			return "-";
 	}
 }
 
@@ -494,7 +495,7 @@ void VGA_Screen::print_player_info(int player_number, int num_lives, int num_bom
 	alt_up_char_buffer_string(this->char_buffer, lives.c_str(), x_pos, 8);
 	alt_up_char_buffer_string(this->char_buffer, bombs.c_str(), x_pos, 10);
 	alt_up_char_buffer_string(this->char_buffer, range.c_str(), x_pos, 12);
-	alt_up_char_buffer_string(this->char_buffer, speed.c_str(), x_pos, 14);
+	//alt_up_char_buffer_string(this->char_buffer, speed.c_str(), x_pos, 14);
 }
 
 void VGA_Screen::draw_speed_powerups(std::vector<int> &powerups) {

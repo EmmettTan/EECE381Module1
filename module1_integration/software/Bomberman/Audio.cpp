@@ -78,7 +78,7 @@ void Audio::load_audio() {
 		}
 	}
 
-	music_file = alt_up_sd_card_fopen("m2.wav", false);
+	music_file = alt_up_sd_card_fopen("m3.wav", false);
 	if (music_file == -1) {
 		printf("--- Could not open file!\n");
 		exit(0);

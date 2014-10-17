@@ -6,6 +6,7 @@
  */
 #include "SD_Card.h"
 #include <stdio.h>
+#include <unistd.h>
 
 void SD_Card::look_for_other_files(char *filename) {
 	int status = alt_up_sd_card_find_next(filename);
@@ -98,7 +99,7 @@ void SD_Card::setup_bitmaps_from_sd_card() {
 	this->change_bitmap_array_from_file(Bomb_Map, bomb_Bmap);
 
 	this->change_bitmap_array_from_file(BMan_B0, back[0]);
-	this->change_bitmap_array_from_file(BMan_B3, back[3]);
+//	this->change_bitmap_array_from_file(BMan_B3, back[3]);
 
 
 	this->change_bitmap_array_from_file(BMan_F0, forward[0]);
@@ -121,9 +122,9 @@ void SD_Card::setup_bitmaps_from_sd_card() {
 	this->change_bitmap_array_from_file(Rman2_R3, Rright[3]);
 
 	this->change_bitmap_array_from_file(Rman2_B0, Rback[0]);
-	this->change_bitmap_array_from_file(Rman2_B3, Rback[3]);
-	this->change_bitmap_array_from_file(Rman2_F0, Rforward[0]);
+//	this->change_bitmap_array_from_file(Rman2_B3, Rback[3]);
 	this->change_bitmap_array_from_file(Rman2_F3, Rforward[3]);
+	this->change_bitmap_array_from_file(Rman2_F0, Rforward[0]);
 }
 
 void SD_Card::change_bitmap_array_from_file(char* filename,
